@@ -3,52 +3,29 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import styles from '../assets/stylesheets/style'
 import { ViewProducts } from '../tools/actions/authActions'
-import { DeleteStudentProfile } from '../tools/actions/authActions'
 import { Image, TouchableOpacity } from 'react-native';
- import { FetchCategory } from '../tools/actions/authActions'
- import { firstnameRetriever } from '../tools/actions/authActions'
- import { useSelector } from 'react-redux';
- import { useDispatch } from 'react-redux';
+import { firstnameRetriever } from '../tools/actions/authActions'
 
-const UniShop = ({ route, navigation }) => {
+
+const AllProduct = ({ route, navigation }) => {
   const [productData, setProductData] = useState([])
   const [firstname, setFirstname] = useState([])
-
   const { uid } = route.params || {}; // Fetching the user uid
-  //const dispatch = useDispatch();// A hook to access redux dispatch function
-  //const userData = useSelector(state => state.auth.userData);
-  //const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-
-  //console.log("productData:", productData);
-
-  // useEffect(() => {
-  //   //Fetch product details 
-  //   FetchCategory()
-  //     .then((fetchData) => {
-  //       console.log("fetchDatat:", fetchData);
-
-  //       setCategory(fetchData);
-  //       console.log("setCategory:", category);
-  //     })
-  //     .catch((error) => console.error("Error fetching data: ", error));
-  // }, []);
-
-
-
+ 
 
   useEffect(() => {
-    //Fetch Student details 
+    //Fetch user details 
     async function fetctUser() {
       const data = await firstnameRetriever();
       console.log("Loggedinp user", data)
-      //fetch student details to studentData
+      //fetch user details to studentData
       const studentData = JSON.parse(data);
 
-      //fetch particular student uid details
-    if(studentData){
-      setFirstname(studentData.firstname)
-    }
-    console.log("user", studentData)
+      //fetch particular user uid details
+      if (studentData) {
+        setFirstname(studentData.firstname)
+      }
+      console.log("user", studentData)
 
     }
     fetctUser()
@@ -67,46 +44,45 @@ const UniShop = ({ route, navigation }) => {
       .catch((error) => console.error("Error fetching data: ", error));
   }, []);
 
-  //onPress button to navigate to the update screen
+  //onPress button to navigate to the category screen
   const onPressViewProduct = (uid) => {
 
-    navigation.navigate('Product', { uid })
+    navigation.navigate('Item', { uid })
     console.log("xxx:", uid);
 
   }
   const onPressLoginAdmin = () => {
     navigation.navigate('Login')
 
-}
-const onPressClothing = () => {
-  navigation.navigate('Clothing')
+  }
+  const onPressClothing = () => {
+    navigation.navigate('Clothing')
 
-}
+  }
 
-const onPressAcademics = () => {
-  navigation.navigate('Academics')
+  const onPressAcademics = () => {
+    navigation.navigate('Academics')
 
-}
-const onPressMobile = () => {
-  navigation.navigate('MobilePhone')
+  }
+  const onPressMobile = () => {
+    navigation.navigate('MobilePhone')
 
-}
+  }
 
-const onPressSofa = () => {
-  navigation.navigate('Sofa')
+  const onPressSofa = () => {
+    navigation.navigate('Sofa')
 
-}
+  }
 
-const onPressKitchen = () => {
-  navigation.navigate('Kitchen')
+  const onPressKitchen = () => {
+    navigation.navigate('Kitchen')
 
-}
+  }
 
-const onPressShoes = () => {
-  navigation.navigate('Shoes')
+  const onPressShoes = () => {
+    navigation.navigate('Shoes')
 
-}
-
+  }
 
   //product details are rendered as items
   const renderItem = ({ item }) => (
@@ -186,5 +162,5 @@ const onPressShoes = () => {
     </View>
   )
 }
-export default UniShop
+export default AllProduct
 

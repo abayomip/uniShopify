@@ -1,4 +1,4 @@
-import {  Text, View, FlatList, Button, Alert} from 'react-native';
+import { Text, View, FlatList, Button, TextInput, Alert } from 'react-native';
 import React from 'react'
 import { useEffect, useState, setData } from 'react'
 import { ViewCart } from '../tools/actions/authActions'
@@ -7,199 +7,217 @@ import styles from '../assets/stylesheets/style'
 import { firstnameRetriever } from '../tools/actions/authActions'
 import { useStripe } from '@stripe/stripe-react-native';
 //import PayPal from 'react-native-paypal';
+import { order } from '../tools/actions/authActions'
+
+import { updateCartDB } from '../tools/actions/authActions'
 
 
-
-const Cart = ({ route, navigation, item }) => {
-  const stripe = useStripe()
-
+const Cart = ({ route, navigation, item, itemUids }) => {
+  const stripe = useStripe();
   const [cartItems, setCartItems] = useState([])
-const [loading, setLoading] = useState(true);
-const [error, setError] = useState([])
-const [userData, setUserData] = useState([])
-const { uid } = route.params || {}; // Fetching the user uid
-
-useEffect(() => {
- 
-  //Fetch Student details 
-  const  fetctUser = async()=> {
-    try{
-    const data = await firstnameRetriever();
-    console.log("Loggedlong user", data)
-    const studentData = JSON.parse(data);
-  if(studentData){
-    console.log("userr", studentData.uid)
-setLoading(false)
-setUserData(studentData)
-  }
-const uid = studentData.uid
-const items = await ViewCart(uid);
-setCartItems(items);
-  
-} catch (error) {
-console.error('Error:', error);
-setError(error.message);
-} finally {
-setLoading(false);
-}
-};
-
-fetctUser();
-}, []);
-
-
-// const onPressHandlePayment = () => {
-//   navigation.navigate('HandlePayment')
-
-// }
-// const handlePayPalCheckout = async () => {
-//   try {
-//     const paymentResponse = await PayPal.requestOneTimePayment(
-//       'Ab1AsLSOviSE768nZku0HUk3Y3k3vUcfQnEihMKDJgXmWIDxJkb0Qe9XQxZee8PCFWNBHObi-be3tsPW',
-//       {
-//         amount: theTotalPrice.toString(),
-//         currency: 'GBP',
-        
-//       }
-//     );
-
-//     if (paymentResponse?.response?.id) {
-//       // Payment was successful
-//       Alert.alert('Payment Successful', 'Thank you for your purchase!');
-//     } else {
-//       // Payment was canceled or failed
-//       Alert.alert('Payment Error', 'Payment was not successful.');
-//     }
-//   } catch (error) {
-//     console.error('PayPal Error:', error);
-//     Alert.alert('PayPal Error', 'An error occurred while processing payment.');
-//   }
-// };
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState([])
+  const [userData, setUserData] = useState([])
+  const { uid } = route.params || {}; // Fetching the user uid
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
 
 
 
-const TotalProductPrice = () => {
-  if(!cartItems || cartItems.length === 0) {
-    return 0;
-  }
-  
-  let theTotalPrice = 0;
-  for (const item of cartItems) {
-    if (item && item.productPrice) {
-      theTotalPrice += parseFloat(item.productPrice);
-    }
-  }
-  
-  console.log("Total Price:", theTotalPrice);
-  return theTotalPrice.toFixed(2);
-};
+  useEffect(() => {
 
-const [theTotalPrice, setTheTotalPrice] = useState(TotalProductPrice());
+    //Fetch Student details 
+    const fetctUser = async () => {
+      try {
+        const data = await firstnameRetriever();
+        console.log("Loggedlong user", data)
+        const studentData = JSON.parse(data);
+        if (studentData) {
+          console.log("userr", studentData.uid)
+          setLoading(false)
+          setUserData(studentData)
+        }
+        const uid = studentData.uid
+        const items = await ViewCart(uid);
+        setCartItems(items);
 
-useEffect(() => {
-  setTheTotalPrice(TotalProductPrice());
-}, [item])
+      } catch (error) {
+        console.error('Error:', error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-const handleCheckout = async () => {
-  console.log('Payment button pressed'); // Add this console log
+    fetctUser();
+  }, []);
 
-  try {
-    // Example: Fetch total price from your backend server
-    const totalPrice = await TotalProductPrice();
 
-    // Example: Call your backend server to create a payment intent
-    const response = await fetch('http://192.168.0.87:3000/create-payment-intent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ totalAmount: totalPrice }),
-    });
 
-    if (!response.ok) {
-      throw new Error('Failed to create payment intent');
+  const TotalProductPrice = () => {
+    if (!cartItems || cartItems.length === 0) {
+      return 0;
     }
 
-    const data = await response.json();
+    let theTotalPrice = 0;
+    for (const item of cartItems) {
+      if (item && item.productPrice) {
+        theTotalPrice += parseFloat(item.productPrice);
+      }
+    }
 
-    // Example: Use Stripe's client SDK to handle payment
-    const { clientSecret } = data;
-    const { error, paymentIntent } = await stripe.confirmPayment(clientSecret, {
-      payment_method: {
-        card: cardElement, // Assuming you have a card element from Stripe's Elements
-        billing_details: {
-          name: 'Customer Name', // Replace with actual customer name
+    console.log("Total Price:", theTotalPrice);
+    return theTotalPrice.toFixed(2);
+  };
+
+  const [theTotalPrice, setTheTotalPrice] = useState(TotalProductPrice());
+
+  useEffect(() => {
+    setTheTotalPrice(TotalProductPrice());
+  }, [item])
+
+
+
+
+  const handleCheckOut = async (uid) => {
+
+    try {
+      if (!name || !address) {
+        console.log('The User supplied a name:', name);
+        console.log('The User supplied an address:', address);
+        throw new Error('Please enter receiver name and address');
+      }
+      //retrieve the user Uid to find any item associated with the user when call updateCartDB to delete the item purchased
+      const data = await firstnameRetriever();
+      console.log("test user", data)
+      const studentData = JSON.parse(data);
+      if (studentData) {
+        console.log("userr", studentData.uid)
+        setLoading(false)
+        setUserData(studentData)
+      }
+      const uid = studentData.uid
+
+      //extract the total price from the TotalProductPrice
+      const totalPrice = await TotalProductPrice()
+      console.log('Total price recieved:', totalPrice);
+      const purchasedProducts = cartItems;
+
+      //send payment request to the backend server
+      const response = await fetch('http://10.0.2.2:3000/create-payment-intent', {
+        method: "POST",
+        body: JSON.stringify({ totalAmount: totalPrice }),
+        headers: {
+          "Content-Type": "application/json",
         },
-      },
-    });
+      });
 
-    if (error) {
-      throw new Error(error.message);
-    } else if (paymentIntent.status === 'succeeded') {
-      // Payment succeeded, handle success scenario (e.g., show success message)
-      console.log('Payment succeeded:', paymentIntent);
-    } else {
-      // Payment failed or is still processing, handle accordingly
-      console.log('Payment status:', paymentIntent.status);
+
+      //recieving the response from the backend
+      const backendData = await response.json();
+
+      if (!response.ok) return Alert.alert(backendData.message);
+
+      //Extracting the client secret ID and OrderID
+      const { ClientSecret, orderId } = backendData;
+      console.log('orderId:', orderId);
+
+      await stripe.initPaymentSheet({
+        paymentIntentClientSecret: ClientSecret,
+        merchantDisplayName: 'uniShopify',
+      });
+
+      //display payment sheet
+      const presentSheet = await stripe.presentPaymentSheet();
+
+      if (presentSheet.error) return Alert.alert(presentSheet.error.message);
+
+      //If payment succesfull display to user 
+      Alert.alert("Payment complete", `Thank you! Your order ID is: ${orderId}`);
+
+      //move items from cartDB to OrderDB with user information 
+      await order(orderId, uid, purchasedProducts, name, address);
+      //Delete purchased items from the cartDB
+      await updateCartDB(uid);
+
+      // Navigate to HomeScreen
+      navigation.navigate('HomeScreen');
+    } catch (err) {
+      console.error(err);
+      Alert.alert("Something went Wrong, try again!");
     }
-  } catch (error) {
-    // Handle errors (e.g., display error message to the user)
-    console.error('Error processing payment:', error);
-  }
-};
-
-
+  };
 
   const renderItem = ({ item }) => (
-    <View style={styles.productCard}>
-      <Image source={{ uri: item.productImage }} style={styles.productImage} />
-      <View style={styles.itemProduct}>
-        <Text style={styles.productCategory}> {item.category}</Text>
 
-        <Text style={styles.productDetails}>Product ID: {item.productID}</Text>
+    <View style={styles.cartContainer}>
+      <View style={styles.cartDetailsContainer}>
+        <Image source={{ uri: item.productImage }} style={styles.cartImage} />
 
-        <Text style={styles.productName}> {item.productName} </Text>
-        <Text style={styles.productDetails}>Product Details: {item.productDetails}</Text>
-        <View style={styles.rowValueOne}>
-          <Text style={styles.productPrice}>Price: £{parseFloat(item.productPrice)}</Text>
-          <Text style={styles.productSize}>Product Size: {item.productSize}</Text>
-
+        <View style={styles.infoCart}>
+          <Text style={styles.CartItemName}> {item.productName} </Text>
+          <Text style={styles.CartItemPrice}>Price: £{parseFloat(item.productPrice)}</Text>
         </View>
 
-        <Text style={""}>Date Added: {item.registerDate}</Text>
-
+        <View style={styles.removeButton}>
+          <Button title="Remove" onPress={() => removeItem(item)} />
+        </View>
       </View>
-     
-
-
     </View>
   );
   return (
-    <View>
-      <Text style={{  fontSize: 16,
-  fontWeight: 'bold',fontStyle: 'italic',  marginBottom: 7,
-}}>Shopping Bag</Text>
-   <Text style={{  fontSize: 16,
-  fontWeight: 'bold',fontStyle: 'italic',  marginBottom: 7,
-}}>Total Price: £{TotalProductPrice()}</Text>
-<TouchableOpacity style={{   color: '#fff',fontSize: 16,fontWeight: 'bold',  marginBottom: 7,}} onPress={handleCheckout} >
-          <Text style={styles.spbuttonText}>  Pay </Text>
-  </TouchableOpacity>
-    <FlatList
-      data={cartItems}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.uid}
+    <View style={styles.cartContainerView}>
+      <Text style={{
+        fontSize: 24,
+        marginBottom: 10,
+      }}>Shopping Bag</Text>
+      <Text style={{
+        fontSize: 24,
+
+      }}>Total Price: £{TotalProductPrice()}</Text>
+
+      <View>
+        <Text style={{
+          fontSize: 20,
+        }}>Name:</Text>
+        <TextInput
+          placeholder="Enter your name"
+          value={name}
+          onChangeText={text => setName(text)}
+          style={{
+            fontSize: 20,
+          }}
+        />
+      </View>
+      <View>
+        <Text style={{
+          fontSize: 20,
+        }}   >Address:</Text>
+        <TextInput
+          placeholder="Enter your Your Address"
+          value={address}
+          onChangeText={text => setAddress(text)}
+          style={{
+            fontSize: 20,
+          }}
+        />
+      </View>
+      <View style={styles.addToCartContainer}>
+        <TouchableOpacity style={styles.addButtonToCart} onPress={() => handleCheckOut(uid)} >
+          <Text style={styles.cartButtonText}>  Pay </Text>
+        </TouchableOpacity>
+      </View>
+      <FlatList
+        data={cartItems}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.uid}
       //numColumns={2} // Set the number of columns to 2
-    />
-     <View style={styles.totalContainer}></View>
- 
- <TouchableOpacity style={{flex: 1, padding: 12,
-          alignItems: 'center', justifyContent: 'space-between'}} >
-          <Text onPress={""} style={styles.spbuttonText}>  Add to Wishlist </Text>
-  </TouchableOpacity>
-   
-   </View>
-   
+      />
+
+
+
+    </View>
+
   )
 }
 

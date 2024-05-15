@@ -4,6 +4,17 @@ import React from 'react'
 import HomeScreen from './Screens/HomeScreen';
 import Product from './Screens/Product';
 import UniShop from './Screens/UniShop';
+import PersonalDetails from './Screens/PersonalDetails';
+import UpdateUser from './Screens/UpdateUser';
+import AdminDashboard from './Screens/AdminDashboard';
+import AdminOrderManagement from './Screens/AdminOrderManagement';
+
+import UpdateItem from './Screens/UpdateItem';
+
+import AllProduct from './Screens/AllProduct';
+import ViewAllUsers from './Screens/ViewAllUsers';
+
+import Item from './Screens/Item';
 
 import Login from './authentications/Login';
 import AdminLogin from './authentications/AdminLogin';
@@ -14,18 +25,12 @@ import Academics from './Category/Academics';
 import MobilePhone from './Category/MobilePhone';
 import Sofa from './Category/Sofa';
 import Shoes from './Category/Shoes';
-
 import Kitchen from './Category/Kitchen';
-
 import RegisterUser from './InsertToDB/RegisterUser';
-
 import AddProduct from './InsertToDB/AddProduct';
 import {Provider} from "react-redux"
 import { store } from "./collections/collection";
-
-
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { StripeProvider } from '@stripe/stripe-react-native';
@@ -54,6 +59,70 @@ function App() {
           tabBarLabel: 'Login',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="Login" color={color} size={26} />
+          ),
+        }}
+        />
+        <Stack.Screen name="AdminOrderManagement" 
+        component={AdminOrderManagement} 
+        options={{
+          tabBarLabel: 'AdminOrderManagement',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="Login" color={color} size={26} />
+          ),
+        }}
+        />
+    <Stack.Screen name="AdminDashboard" 
+        component={AdminDashboard} 
+        options={{
+          tabBarLabel: 'AdminDashboard',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="Login" color={color} size={26} />
+          ),
+        }}
+        />
+        <Stack.Screen name="AllProduct" 
+        component={AllProduct} 
+        options={{
+          tabBarLabel: 'AllProduct',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="Login" color={color} size={26} />
+          ),
+        }}
+        />
+         <Stack.Screen name="ViewAllUsers" 
+        component={ViewAllUsers} 
+        options={{
+          tabBarLabel: 'ViewAllUsers',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="Login" color={color} size={26} />
+          ),
+        }}
+        />
+<Stack.Screen name="PersonalDetails" 
+        component={PersonalDetails} 
+        options={{
+          tabBarLabel: 'PersonalDetails',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+        />
+        <Stack.Screen name="UpdateUser" 
+        component={UpdateUser} 
+        options={{
+          tabBarLabel: 'UpdateUser',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+        />
+
+<Stack.Screen name="UpdateItem" 
+        component={UpdateItem} 
+        options={{
+          tabBarLabel: 'UpdateItem',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
         }}
         />
@@ -169,6 +238,15 @@ function App() {
           options={{ 
             title: 'Product',
             tabBarLabel:'Product',
+            tabBarIcon: () => (
+              <MaterialCommunityIcons name='home-account' size={20} color={'red-50'} />
+            )
+          }}
+        />
+        <Stack.Screen name="Item" component={Item} 
+          options={{ 
+            title: 'Item',
+            tabBarLabel:'Item',
             tabBarIcon: () => (
               <MaterialCommunityIcons name='home-account' size={20} color={'red-50'} />
             )

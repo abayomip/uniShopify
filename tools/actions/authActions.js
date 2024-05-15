@@ -1,5 +1,5 @@
-import { getFirebaseApp } from "../../Backend/FirebaseHandler";
-import { getFirestore, doc, setDoc, addDoc, query, docRef, where, getDoc, getDocs, collection, updateDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
+import { getFirebaseApp, getStorageInstance } from "../../Backend/FirebaseHandler";
+import { getFirestore, doc, setDoc, addDoc,collectionGroup, query, docRef, where, getDoc, getDocs, collection, updateDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { child, getDatabase, ref } from "firebase/database";
@@ -46,7 +46,7 @@ export const register = (firstname, lastname, username, email, password) => {
 }
 
 
-export const registerUser = (firstname, lastname, username, email, password) => {
+export const registerUser = (firstname, lastname, username,studentId, email, password) => {
   return async (dispatch) => {
     const app = getFirebaseApp();
     const auth = getAuth(app);
@@ -61,10 +61,10 @@ export const registerUser = (firstname, lastname, username, email, password) => 
       const { uid, stsTokenManager } = result.user;
       const { accessToken, expirationTime } = stsTokenManager;
       const expiryDate = new Date(expirationTime);
-      const userData = await createUsers(firstname, lastname, username, email, uid);
+      const userData = await createUsers(firstname, lastname, username,studentId, email, uid);
       dispatch(authenticate({ token: accessToken, userData }))
       //save user data and token to storage
-      saveToDataStorage(accessToken, uid, expiryDate)
+      //saveToDataStorage(accessToken, uid, expiryDate)
     } catch (error) {
       alert(error.message)
       console.log(error)
@@ -114,7 +114,7 @@ export const StudentRegister = (profilePicture, firstname, lastname, username, e
 }
 
 
-export const CreateItem = (productImage, productName, productDetails, category, productSize, productPrice, productID) => {
+export const CreateItem = (productImage, productName, productDetails, category, productSize, productPrice, productID, seller) => {
   return async (dispatch) => {
     try {
 
@@ -124,7 +124,8 @@ export const CreateItem = (productImage, productName, productDetails, category, 
         category,
         productSize,
         productPrice,
-        productID)
+        productID,
+        seller)
       dispatch(authenticate({ productData }))
       //save user data and token to storage
       saveToProductStorage(productData)
@@ -138,7 +139,7 @@ export const CreateItem = (productImage, productName, productDetails, category, 
 
 export const Product = async (productImage, productName, productDetails, category, productSize,
   productPrice,
-  productID) => {
+  productID,seller) => {
   try {
     const app = getFirebaseApp();
     const db = getFirestore(app);
@@ -147,7 +148,7 @@ export const Product = async (productImage, productName, productDetails, categor
     const docRef = await addDoc(ProductRef, {
       productImage, productName, productDetails, category, productSize,
       productPrice,
-      productID,
+      productID,seller,
       uid: '',
       registerDate: new Date().toISOString()
     });
@@ -155,7 +156,7 @@ export const Product = async (productImage, productName, productDetails, categor
     const CreatedProd = {
       productImage, productName, productDetails, category, productSize,
       productPrice,
-      productID,
+      productID,seller,
       uid: docRef.id,
       registerDate: new Date().toISOString()
     };
@@ -367,9 +368,9 @@ export const createAdmin = async (firstname, lastname, username, email, uid) => 
 };
 
 
-export const createUsers = async (firstname, lastname, username, email, uid) => {
+export const createUsers = async (firstname, lastname, username, studentId,email, uid) => {
   const userData = {
-    firstname, lastname, username, email, uid, registerDate: new Date().toISOString(),
+    firstname, lastname, username,studentId, email, uid, registerDate: new Date().toISOString(),
 
   };
   console.log('Create user in DB:', userData);
@@ -562,6 +563,32 @@ export const ViewRegisteredStudent = async () => {
 
 }
 
+export const ViewRegisteredUser = async () => {
+  //getting the firebase instance
+  const app = getFirebaseApp();
+  const db = getFirestore(app);
+  //Empty array use to store the data retrieved from the DB
+  const data = [];
+
+  try {
+    const querySnapshot = await getDocs(collection(db, "UserDB"));
+
+    querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
+      data.push(doc.data());
+
+    });
+    console.log('Data:', data);
+
+  } catch (error) {
+    console.error("Error:", error)
+    throw error;
+
+  }
+  return data;
+
+}
+
 export const ViewStudentProfile = async (uid) => {
   //getting the firebase instance with getFirebaseApp()
   const app = getFirebaseApp();
@@ -593,25 +620,25 @@ export const ViewStudentProfile = async (uid) => {
   return data;
 
 }
-export const updateStudentUser = async (uid, updateUserData) => {
-  console.log('before update:', updateUserData);
+export const updateItem = async (uid, productData) => {
+  console.log('before update:', productData);
 
   const app = getFirebaseApp();
   const db = getFirestore(app);
   try {
-    const userRef = doc(db, 'StudentDB', uid);
+    const userRef = doc(db, 'ProductDB', uid);
     const userSnapshot = await getDoc(userRef);
     if (userSnapshot.exists()) {
 
       //passing the updateUserData as an object
-      await updateDoc(userRef, updateUserData[0])
-      console.log('User Updated! UID ${uid}');
-      alert("Account Succefully Updated", "Account Updated")
+      await updateDoc(userRef, productData[0])
+      console.log('item Updated! UID ${uid}');
+      alert("Item Succefully Updated", "Item Updated")
 
-      console.log('userData:', updateUserData);
-      console.log('Inside updateFunction - After update:', updateUserData);
+      console.log('itemData:', productData);
+      console.log('Inside updateFunction - After update:', productData);
     } else {
-      console.log('User does not exist:', uid);
+      console.log('item does not exist:', uid);
 
     }
     //timestamp: serverTimestamp()});
@@ -620,13 +647,41 @@ export const updateStudentUser = async (uid, updateUserData) => {
     throw error;
   }
 };
+export const updateStudentUser = async (uid, updateUserData) =>{
+  console.log('before update:', updateUserData);
+
+  const app =  getFirebaseApp();
+  const db = getFirestore(app);
+  try{
+  const userRef = doc(db, 'UserDB', uid);
+  const userSnapshot = await getDoc(userRef);
+  if (userSnapshot.exists()) {
+
+ //passing the updateUserData as an object
+    await updateDoc(userRef,updateUserData[0]) 
+    console.log('User Updated! UID ${uid}');
+    alert("Account Succefully Updated", "Account Updated")
+
+      console.log('userData:', updateUserData);
+      console.log('Inside updateFunction - After update:', updateUserData);
+  }else{
+    console.log('User does not exist:', uid);
+
+  } 
+      //timestamp: serverTimestamp()});
+  } catch (error) {
+    console.error('Error updating user to DB', error);
+    throw error;
+  }
+};
+    
 
 export const DeleteStudentProfile = async (uid) => {
   const app = getFirebaseApp();
   const db = getFirestore(app);
 
   try {
-    const studentRef = doc(db, 'StudentDB', uid);
+    const studentRef = doc(db, 'UserDB', uid);
 
     await deleteDoc(studentRef);
     console.log('User Deleted! UID ${uid}');
@@ -634,6 +689,23 @@ export const DeleteStudentProfile = async (uid) => {
 
   } catch (error) {
     console.error('Error updating user to DB', error);
+    throw error;
+  }
+};
+
+export const DeleteItem = async (uid) => {
+  const app = getFirebaseApp();
+  const db = getFirestore(app);
+
+  try {
+    const ItemRef = doc(db, 'ProductDB', uid);
+
+    await deleteDoc(ItemRef);
+    console.log('Item Deleted! UID ${uid}');
+    alert("Item Deleted", "Item Deleted")
+
+  } catch (error) {
+    console.error('Error updating DB', error);
     throw error;
   }
 };
@@ -795,7 +867,9 @@ export const fetchProductsToCart = async (uid, item) => {
     }
     
   const itemCartCollection = collection(db,  `CartDB/${uid}/items`);
+//await addDoc(itemCartCollection, {item});
 await addDoc(itemCartCollection, {...item, uid: item.uid});
+
   console.log('Product added to cart:', item);
 } catch (error) {
   console.error('Error adding product to shopping bag:',error)
@@ -812,13 +886,14 @@ export const updateProductDB = async (uid) => {
   try {
   const productRef = doc(db, 'ProductDB', uid);
   await deleteDoc(productRef)
-  console.log('Product remove from cart:', uid);
+  console.log('Product remove from ProductDB:', uid);
 } catch (error) {
   console.error('Error updating:',error)
   throw error;
 
 }
 }
+
 
 
 
@@ -841,3 +916,84 @@ export const ViewCart = async (uid) => {
     throw error;
 }
 };
+
+
+
+
+export const order = async (orderId,uid,purchasedProducts,name,address) => {
+  try{
+    const db = getFirestore();
+    if (!uid) {
+      console.error('Error: No user ID provided.');
+      return;
+    }
+    //create an order collection
+    const orderCollectionRef = collection(db, `OrderDB/${uid}/item`);
+
+        // Iterate through each purchased products
+for (const item of purchasedProducts){
+  //move the products to the order collection
+  await addDoc(orderCollectionRef,{...item,uid,orderId,name,address});
+  console.log('items moved to OrderDB:',);
+}
+console.log('User items fetched from CartDB:', uid);
+  }catch(error){
+    console.error('Error moving items to OrderDB', error);
+    throw error;
+  }
+
+}
+
+
+
+
+export const updateCartDB = async (uid) => {
+const db = getFirestore();
+  try {
+    if (!uid) {
+      console.error('Error: No user ID provided.');
+      return;
+    }
+    
+    //query the subcollection items under the DB for each items
+    const cartCollectionRef = collection(db, `CartDB/${uid}/items`);
+
+    // Fetch all documents in the 'items' subcollection
+    const querySnapshot = await getDocs(cartCollectionRef);
+
+    // Iterate through each document and delete it
+    querySnapshot.forEach(async(doc) => {
+      await deleteDoc(doc.ref);
+      console.log('Item deleted from CartDB', doc.id)
+    });
+
+  console.log('All items deleted from cart for user:', uid)
+  }catch(error){
+    console.error('Error deleting items from cart for user:', uid)
+    throw error;
+  }
+};
+
+
+export const ViewOrder = async() => {
+  //getting the firebase instance
+  const db = getFirestore();
+
+  try {
+    //Query the OrderDB using collectionGroup instead of collection to query the items regardless of their parent collection 
+    const querySnapshot = await getDocs(collectionGroup(db,  'item'));
+//initialize an empty array to store the feteched products
+    const orderProducts = []
+    querySnapshot.forEach((doc) =>{
+      console.log('product:', orderProducts);
+      orderProducts.push( {uid:doc.id, ...doc.data() });
+      console.log(doc.id, " => ", doc.data());
+    });
+    return orderProducts;
+  } catch (error) {
+    console.error("Error fetching items: ", error)
+    return[]
+}
+};
+
+

@@ -19,6 +19,7 @@ const initialState = {
     firstname: isTestMode ? "Ali" : "",
     lastname: isTestMode ? "Mohammed" : "",
     username: isTestMode ? "Champion" : "",
+    studentId: isTestMode ? "12345678" : "",
     email: isTestMode ? "example@example.com" : "",
     password: isTestMode ? "************" : "",
   },
@@ -26,9 +27,10 @@ const initialState = {
     firstname: false,
     lastname: false,
     username: false,
+    studentId: false,
     email: false,
     password: false,
-    confirmPassword: false,
+
   },
   EntryIsValid: false,
 }
@@ -58,9 +60,9 @@ const RegisterUser = ({ navigation }) => {
           formState.entryValues.firstname,
           formState.entryValues.lastname,
           formState.entryValues.username,
+          formState.entryValues.studentId,
           formState.entryValues.email,
-          formState.entryValues.password,
-          formState.entryValues.confirmPassword
+          formState.entryValues.password
   
   
         );
@@ -117,6 +119,15 @@ const RegisterUser = ({ navigation }) => {
               onInputChanged={inputHandler}
   
             />
+             <Input
+            id="StudentID"
+            placeholder='StudentID'
+            //onChangeText={(text) => inputHandler(email)}
+            errorText={formState.entryValidities["StudentID"]}
+            onInputChanged={inputHandler}
+  
+  
+            />
   
             <Input
               //  style={styles.input}
@@ -140,17 +151,7 @@ const RegisterUser = ({ navigation }) => {
   
   
             />
-            <Input
-              //style={styles.input}
-              id="confirmPassword"
-              placeholder='Confirm Password'
-              //onChangeText={(text) => inputHandler(confirmPassword)}
-              errorText={formState.entryValidities["confirmPassword"]}
-              onInputChanged={inputHandler}
-              secureTextEntry={true}
-  
-  
-            />
+           
   
             <TouchableOpacity style={styles.button} onPress={onPressRegisterAdmin}>
               {isLoading && <ActivityIndicator size="small" color="#fff" />}

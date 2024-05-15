@@ -51,7 +51,7 @@ const AdminLogin = ({ navigation }) => {
       //Dispatch the action to the redux state management
        await dispatch(action);
       setError(null);
-      navigation.navigate('UniShop');
+      navigation.navigate('AdminDashboard');
       alert("Login Successfully", "You are logged in");
       setIsLoading(false);
 

@@ -36,10 +36,10 @@ export const Input = (props) => {
        
     },
     input:{
-        // borderWidth: 2, 
+        borderWidth: 2, 
         borderRadius: 4, 
         width: 300, 
-        height: 40, 
+        height: 45, 
         padding: 10,
         marginBottom: 10,
         backgroundColor: 'white',

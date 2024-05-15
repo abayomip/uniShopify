@@ -52,18 +52,6 @@ const Product = ({ route, navigation }) => {
 
 
 
-//   useEffect(() => {
-//     const getProducts = async () => {
-//         try {
-//             const productsData = await fetechProductsForCart();
-//             setProducts(productsData);
-//         } catch (error) {
-//             console.error("Error fetching items: ", error)
-//         }
-//     };
-
-//     getProducts();
-// }, []);
 useEffect(() => {
   //Fetch Student details 
   async function fetctUser() {
@@ -122,20 +110,17 @@ if(userData && userData.uid){
         <Text style={""}>Date Added: {item.registerDate}</Text>
 
       </View>
+
+
       <View style={styles.item}>
-        <TouchableOpacity style={{
-          flex: 1, padding: 12,
-          alignItems: 'center', justifyContent: 'space-between'}} >
-          <Text onPress={() => AddToCart(item)} style={styles.spbuttonText}>  Add to bag </Text>
-
+        <TouchableOpacity style={styles.sectionButton} >
+          <Text onPress={() => AddToCart(item)} style={styles.buttonTextOption}>  Add to bag </Text>
         </TouchableOpacity>
-
-        <TouchableOpacity style={{
-          flex: 1, padding: 12,
-          alignItems: 'center', justifyContent: 'space-between'}} >
-          <Text onPress={() => onPressUpdateStudent(item.uid)} style={styles.spbuttonText}>  Add to Wishlist </Text>
-
+        
+        <TouchableOpacity style={styles.sectionButton}  >
+          <Text onPress={{}} style={styles.buttonTextOption}>  Add to Wishlist </Text>
         </TouchableOpacity>
+       
       </View>
 
 
