@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, Button, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, KeyboardAvoidingView,ScrollView, Button, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState, useReducer, useCallback } from 'react'
 import styles from '../assets/stylesheets/style'
 import Input from '../assets/stylesheets/textInput'
@@ -29,9 +29,8 @@ const AdminLogin = ({ navigation }) => {
   const [formState, dispatchFormState] = useReducer(reducer, initialState);
   const dispatch = useDispatch();
 
-  //The inputHandler function is use to respond to the formState. 
-  //A callback function is used to manage changes to user entries fields and it takes the parameter id and value
-  //it will return memorised version of the callback that only changes if one of the input changes
+  //A callback function 'useCallback' is used to manage changes to user entries fields, it takes the parameter id and value
+  //the inputHandler return a memorised version of the callback function, that only changes if one of the input changes
   const inputHandler = useCallback((inputId, inputValue) => {
     //validating the user entries with the validateInputData functions and obtaining the result  
     const result = validateInputData(inputId, inputValue);
@@ -40,21 +39,19 @@ const AdminLogin = ({ navigation }) => {
   }, [dispatchFormState])
 
   //This onPress function create an action using the LoginAdmin function with the user entered values
-  const onPressLoginAdmin = async  () => {
-    try{
+  const onPressLoginAdmin = async () => {
+    try {
       setIsLoading(true);
-   
       const action = LoginAdmin(
-        formState.entryValues.email,          
-        formState.entryValues.password,  
+        formState.entryValues.email,
+        formState.entryValues.password,
       );
       //Dispatch the action to the redux state management
-       await dispatch(action);
+      await dispatch(action);
       setError(null);
       navigation.navigate('AdminDashboard');
-      alert("Login Successfully", "You are logged in");
+      alert("You are logged in Successfully");
       setIsLoading(false);
-
 
     } catch (error) {
       console.log('error');
@@ -69,47 +66,52 @@ const AdminLogin = ({ navigation }) => {
   }, [error]);
 
 
-  const onPressNewAdmin = () => {
-    navigation.navigate('AdminRegistration');
-  }
+
 
 
   return (
     <KeyboardAvoidingView
       style={styles.productCard}
-      behaviour="padding"
     >
+<ScrollView style={{  marginTop: 47,
+}}>
+      <Text style={styles.title}>uniShopify</Text>
+      
+      <Text style={styles.studentLoginSts} >Administrator Login</Text>
+      <View style={styles.formContainer}>
 
-        <Text style={styles.title}>uniShopify</Text>
-        <Text>Administrator Login</Text>
-        <Input
-          id="email"
-          placeholder='email'
-          errorText={formState.entryValidities["email"]}
-          onInputChanged={inputHandler}
-        />
+        <View style={styles.LoginCard}>
+          <Input
+            id="email"
+            placeholder='email'
+            style={styles.loginInput}
+            errorText={formState.entryValidities["email"]}
+            onInputChanged={inputHandler}
+          />
+        </View>
 
-        <Input
-          id="password"
-          placeholder='Password'
-          autoCapitalize="none"
-          //onChangeText={(text) => inputHandler(password)}
-          errorText={formState.entryValidities["password"]}
-          onInputChanged={inputHandler}
-          secureTextEntry={true}
-        />
+        <View style={styles.LoginCard}>
+          <Input
+            id="password"
+            placeholder='Password'
+            style={styles.loginInput}
+            autoCapitalize="none"
+            errorText={formState.entryValidities["password"]}
+            onInputChanged={inputHandler}
+            secureTextEntry={true}
+          />
+        </View>
         <Text> Insert details to SignIn</Text>
+{error ? <Text style = {{}}>{error}</Text> : null }
+        <TouchableOpacity style={styles.buttonInfo} onPress={onPressLoginAdmin}
+        disabled= {isLoading}>
+        <Text style={styles.buttonInfoText}> LOGIN </Text>
+      </TouchableOpacity>
+      {isLoading && <ActivityIndicator size="large"/>}
+      </View>
 
-        <Button
-          title="LOGIN"
-          onPress={onPressLoginAdmin}
-          isLoading={isLoading}
-          style={styles.loginButton}></Button>
 
-
-        <TouchableOpacity style={styles.buttonInfo} onPress={onPressNewAdmin}>
-          <Text style={styles.buttonInfoText}> Register new admin </Text>
-        </TouchableOpacity>
+      </ScrollView>
     </KeyboardAvoidingView>
   )
 }

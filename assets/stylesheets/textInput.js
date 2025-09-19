@@ -13,7 +13,7 @@ export const Input = (props) => {
           <TextInput
           {...props}
           placeholder={props.placeholder}
-          style={styles.input}
+          style={[styles.input, props.textInputStyle, props.scrollContentContainer]}
           autoCapitalize='none'
           onChangeText = {onChangeText}
 
@@ -33,18 +33,21 @@ export const Input = (props) => {
   const styles = StyleSheet.create({
    
     inputContainer:{
-       
     },
     input:{
         borderWidth: 2, 
         borderRadius: 4, 
-        width: 300, 
-        height: 45, 
+        width: 265,
+        height: 40, 
         padding: 10,
         marginBottom: 10,
         backgroundColor: 'white',
-        borderColor: '#ccc',        
-    },
+        borderColor: '#ccc',   
+        textAlignVertical: 'top', 
+        fontFamily:'Unna-BoldItalic',    
+      },
+  
+    
     errorContainer: {
         marginVertical: 4
         },

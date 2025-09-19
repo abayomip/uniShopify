@@ -15,23 +15,7 @@ const UniShop = ({ route, navigation }) => {
   const [firstname, setFirstname] = useState([])
 
   const { uid } = route.params || {}; // Fetching the user uid
-  //const dispatch = useDispatch();// A hook to access redux dispatch function
-  //const userData = useSelector(state => state.auth.userData);
-  //const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-
-  //console.log("productData:", productData);
-
-  // useEffect(() => {
-  //   //Fetch product details 
-  //   FetchCategory()
-  //     .then((fetchData) => {
-  //       console.log("fetchDatat:", fetchData);
-
-  //       setCategory(fetchData);
-  //       console.log("setCategory:", category);
-  //     })
-  //     .catch((error) => console.error("Error fetching data: ", error));
-  // }, []);
+  
 
 
 
@@ -115,8 +99,8 @@ const onPressShoes = () => {
       <View style={styles.itemAllProduct}>
         <Image source={{ uri: item.productImage }} style={styles.allproductImage} resizeMode='contain' />
         <View style={styles.itemContentAllProduct}>
-          <Text style={styles.titleProduct} >  {item.productName} </Text>
-          <Text style={styles.itemPrice}>Product Price: £{item.productPrice}</Text>
+          <Text style={styles.productName} >{item.productName} </Text>
+          <Text style={styles.itemPrice}>Price: £{item.productPrice}</Text>
         </View>
       </View>
 
@@ -166,15 +150,11 @@ const onPressShoes = () => {
 
 
       <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-        <Text style={{ fontSize: 30, }}>  {firstname} You are</Text>
-        <TouchableOpacity style={styles.signInButton} onPress={onPressLoginAdmin}>
-          <Text style={{
+        <Text style={styles.please}> Welcome </Text>
+        <Text style={{
             fontSize: 19, fontStyle: 'italic', color: 'red',
             fontWeight: 'bold',
-
-
-          }}> Sign In! </Text>
-        </TouchableOpacity>
+          }}> {firstname} </Text>
       </View>
       <FlatList
         data={productData}

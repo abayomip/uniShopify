@@ -3,54 +3,31 @@ import React from 'react'
 import { useEffect, useState, setData } from 'react'
 import styles from '../assets/stylesheets/style'
 import { FetchSimilarCategory } from '../tools/actions/authActions'
-
 import Input from '../assets/stylesheets/textInput'
 import { ViewProductItem } from '../tools/actions/authActions'
 import { ProductRetriever } from '../tools/actions/authActions'
 import { Image, TouchableOpacity } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { logout } from "../collections/authSlice";
-import { fetchProductsToCart } from '../tools/actions/authActions'
-import { updateProductDB } from '../tools/actions/authActions'
-import { firstnameRetriever } from '../tools/actions/authActions'
+
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const Product = ({ route, navigation }) => {
+const UserProductView = ({ route, navigation }) => {
   const [productData, setProductData] = useState([])
   const [isPolicy, setIsPolicy] = useState(false)
   const [isCustomerServices, setIsCustomerServices] = useState(false)
   const [isAbout, setIsAbout] = useState(false)
 
-  const [userData, setUserData] = useState([])
 
   const [selectedByCategory, setSelectedByCategory] = useState([])
-  const { uid } = route.params || {}; // Fetching the user uid
-  const dispatch = useDispatch();// A hook to access redux dispatch function
+  const { uid } = route.params || {}; 
 
 
-  useEffect(() => {
-    //Fetch Student details 
-    async function fetctUser() {
-      const data = await firstnameRetriever();
-      console.log("Loggedlong user", data)
-      const studentData = JSON.parse(data);
-      if (studentData) {
-        console.log("userr", userData)
-
-        setUserData(studentData)
-
-      }
-
-    }
-    fetctUser()
-  }, [uid]);
 
   useEffect(() => {
     //fetch particular product uid details
     ViewProductItem(uid)
       .then(async (fetchData) => {
         console.log("productData:", fetchData);
+        // utilizing useState to update the retreived data 
         setProductData([fetchData]);
 
         if (fetchData && fetchData.category) {
@@ -60,9 +37,7 @@ const Product = ({ route, navigation }) => {
           const uid = fetchData.uid
           console.log("category products:", selectedByCategory);
           console.log("category uid:", uid);
-
         }
-
       })
       .catch((error) => {
         console.error("Error fetching data: ", error)
@@ -72,27 +47,7 @@ const Product = ({ route, navigation }) => {
 
 
 
-  const AddToCart = async (item) => {
-    try {
-      if (userData && userData.uid) {
-        console.log("datam", userData.uid)
-        console.log("datm", item)
-        const uid = userData.uid;
-        await fetchProductsToCart(uid, item);
 
-        await updateProductDB(item.uid);
-        alert('Product is succesfully added to cart')
-        navigation.navigate("UniShop");
-
-      } else {
-        console.error('No data or User ID not available');
-        alert('Error adding product to Cart')
-
-      }
-    } catch (error) {
-      console.error('Error', 'adding item to shopping bag:', error);
-    }
-  };
 
 
   //Product details are rendered as items
@@ -116,7 +71,7 @@ const Product = ({ route, navigation }) => {
 
           <View style={styles.item}>
             <TouchableOpacity style={styles.sectionButton} >
-              <Text onPress={() => AddToCart(item)} style={styles.buttonTextOption}>  Add to bag </Text>
+              <Text onPress={onPressToSignIn} style={styles.buttonTextOption}>  Add to bag </Text>
             </TouchableOpacity>
 
           </View>
@@ -136,10 +91,15 @@ const Product = ({ route, navigation }) => {
 
 
   const onPressViewProduct = (uid) => {
-    navigation.navigate('Product', { uid })
+    navigation.navigate('UserProductView', { uid })
     console.log("cat:", uid);
   }
 
+  const onPressToSignIn = () => {
+    navigation.navigate('Login')
+    alert("Please sign to add Items to your shopping bag")
+
+  }
 
 
   const handlePolicy = () => {
@@ -177,13 +137,15 @@ const Product = ({ route, navigation }) => {
                   <TouchableOpacity onPress={() => onPressViewProduct(selectedByCategory.uid)} style={{
                     flexDirection: 'row', backgroundColor: 'grey',
                     borderRadius: 5,
-                    paddingHorizontal: 10, paddingVertical: 8, width: 190,height: 35,
-                    alignSelf: 'center',      marginBottom: 13,
+                    paddingHorizontal: 10, paddingVertical: 8, width: 190, height: 35,
+                    alignSelf: 'center', marginBottom: 13,
 
 
                   }}>
-                    <Text style={{ color: 'white', marginLeft: 30,
- fontSize: 15, fontWeight: 'bold', textAlign: 'center', }}> View Product </Text>
+                    <Text style={{
+                      color: 'white', marginLeft: 30,
+                      fontSize: 15, fontWeight: 'bold', textAlign: 'center',
+                    }}> View Product </Text>
                   </TouchableOpacity>
                 </View>
               ))}
@@ -192,7 +154,7 @@ const Product = ({ route, navigation }) => {
 
             <View style={styles.productCard}>
               <View style={{
-                marginTop: 7,marginBottom: 10,  marginLeft: 9, marginRight: 9,
+                marginTop: 7, marginBottom: 10, marginLeft: 9, marginRight: 9,
               }}>
 
                 <TouchableOpacity style={styles.extraButton} onPress={handleCS}>
@@ -215,12 +177,12 @@ const Product = ({ route, navigation }) => {
 
 
                 <TouchableOpacity style={styles.extraButton} onPress={handlePolicy}>
-                <View style={{
+                  <View style={{
                     flexDirection: 'row',
                     alignItems: 'center', justifyContent: 'space-between',
                   }}>
-                  <Text style={styles.extraText}>Policy </Text>
-                  <MaterialCommunityIcons
+                    <Text style={styles.extraText}>Policy </Text>
+                    <MaterialCommunityIcons
                       name={'isCustomerServices' ? 'chevron-down' : 'chevron-up'}
                       size={20}
                       color={'black'} />
@@ -232,15 +194,15 @@ const Product = ({ route, navigation }) => {
                   </View>
                 )}
 
- 
+
 
                 <TouchableOpacity style={styles.extraButton} onPress={handleAbout}>
-                <View style={{
+                  <View style={{
                     flexDirection: 'row',
                     alignItems: 'center', justifyContent: 'space-between',
                   }}>
-                  <Text style={styles.extraText}>About uniShopify </Text>
-                  <MaterialCommunityIcons
+                    <Text style={styles.extraText}>About uniShopify </Text>
+                    <MaterialCommunityIcons
                       name={'isCustomerServices' ? 'chevron-down' : 'chevron-up'}
                       size={20}
                       color={'black'} />
@@ -262,5 +224,5 @@ const Product = ({ route, navigation }) => {
   )
 }
 
-export default Product
+export default UserProductView
 

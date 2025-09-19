@@ -1,8 +1,7 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, Button, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, KeyboardAvoidingView, ScrollView,Button, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState, useReducer, useCallback } from 'react'
 import styles from '../assets/stylesheets/style'
 import Input from '../assets/stylesheets/textInput'
-//import { db } from '../backend/firebase';
 import { reducer } from '../tools/reducers/formReducer';
 import { validateInputData } from '../tools/actions/formActions';
 import { LoginStudent, dataRetrieve } from '../tools/actions/authActions'
@@ -32,9 +31,8 @@ const StudentLogin = ({ navigation }) => {
   const [formState, dispatchFormState] = useReducer(reducer, initialState);
   const dispatch = useDispatch();
   
-  //The inputHandler function is use to respond to the formState. 
-  //A callback function is used to manage changes to user entries fields and it takes the parameter id and value
-  //it will return memorised version of the callback that only changes if one of the input changes
+  //A callback function 'useCallback' is used to manage changes to user entries fields, it takes the parameter id and value
+  //the inputHandler return a memorised version of the callback function, that only changes if one of the input changes
   const inputHandler = useCallback((inputId, inputValue) => {
     //validating the user entries with the validateInputData functions and obtaining the result
     const result = validateInputData(inputId, inputValue);
@@ -54,8 +52,8 @@ const StudentLogin = ({ navigation }) => {
        await dispatch(action);
       setError(null);
 
-      navigation.navigate('UniShop');
-      alert("Login Successfully", "You are logged in");
+      navigation.navigate('HomeScreen');
+      alert("You are logged in Successfully");
       setIsLoading(false);
     } catch (error) {
       console.log('Login error:', error);
@@ -79,17 +77,23 @@ const StudentLogin = ({ navigation }) => {
       style={styles.productCard}
       behaviour="padding"
     >
+      <ScrollView style={{  marginTop: 47,
+}}>
        <Text style={styles.title}>uniShopify</Text>
-        <Text>Student Login</Text>
+       <Text style={styles.studentLoginSts} >Student Login</Text>
+        <View style={styles.formContainer}>
 
-        <Input
+        <View style={styles.LoginCard}>
+        <Input 
           id="email"
           placeholder='email'
           errorText={formState.entryValidities["email"]}
           onInputChanged={inputHandler}
+          style={styles.inputText}
 
         />
-
+        </View>
+        <View style={styles.LoginCard}>
         <Input
           id="password"
           placeholder='Password'
@@ -97,18 +101,21 @@ const StudentLogin = ({ navigation }) => {
           onInputChanged={inputHandler}
           secureTextEntry={true}
           autoCapitalize="none"
+        />
+        </View>
 
-        />
         <Text> Insert details to SignIn</Text>
-        <Button
-          title="LOGIN"
-          onPress={onPressStudentLogin}
-          isLoading={isLoading}
-          style={styles.loginButton}
-        />
+        <TouchableOpacity style={styles.buttonInfo} onPress={onPressStudentLogin}>
+        <Text style={styles.buttonInfoText}> LOGIN </Text>
+      </TouchableOpacity>
+              </View>
+<View style={{marginRight: 12,
+}}>
       <TouchableOpacity style={styles.buttonInfo} onPress={onPressNewUser}>
           <Text style={styles.buttonInfoText}> Register for a new Account </Text>
         </TouchableOpacity>
+        </View>
+        </ScrollView>
     </KeyboardAvoidingView>
   )
 }

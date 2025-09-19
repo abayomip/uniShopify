@@ -7,9 +7,198 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: 'pink'
-      
+      backgroundColor: 'pink',
     },
+
+    checkOutInfo:{
+      fontSize: 17,
+      paddingTop:1,
+      textDecorationLine: 'underline',
+      fontFamily:'Unna-Bold', 
+   },
+
+  viewTotalSales:{
+    fontSize: 20, 
+    marginTop: 10,
+    fontFamily:'Unna-Bold', 
+    textDecorationLine:'underline',
+
+
+  },
+
+    scrollView:{
+      flex: 1,
+       },
+
+    recieverName:{
+      fontSize: 30, 
+      borderWidth: 1, 
+      borderRadius: 25, 
+      height: 35,
+      paddingLeft: 10,
+      marginVertical: 14,
+      marginHorizontal: 4,
+      fontFamily:'Unna-Bold', 
+    },
+
+    recieverAddress:{
+      fontSize: 30,
+      borderWidth: 1, 
+      marginHorizontal: 4,
+      marginBottom: 10,
+      borderRadius: 25, 
+      height: 35, 
+      paddingLeft: 10,
+      fontFamily:'Unna-Bold', 
+
+    },
+ 
+ 
+    itemInfo:{
+      marginVertical: 1, 
+      marginTop: -5,
+      marginLeft: 15,
+       fontSize: 23, 
+      fontFamily:'Unna-Bold', 
+   
+
+    },
+
+    cartInfo:{
+      marginHorizontal:1,
+      marginVertical: 4,
+      fontFamily:'Unna-BoldItalic',    
+      fontSize: 16, 
+     // marginLeft: 10,
+   
+
+    },
+    inputText:{
+      fontFamily:'Unna-BoldItalic',    
+      // fontSize: 90, 
+     //fontWeight: 'bold',
+
+    },
+    appLogo:{
+      fontSize: 60, 
+      alignItems: 'center',
+      paddingBottom: 5,
+      fontFamily:'Unna-BoldItalic',    
+    },
+    appValue:{
+      paddingBottom: 40, 
+      fontFamily:'Unna-Italic',    
+      fontSize: 16, 
+
+    },
+    studentLoginSts:{
+      fontSize: 20, 
+      fontFamily:'Unna-BoldItalic',    
+    textAlign: 'center',
+    },
+
+    please:{
+      fontSize: 20, 
+      margin: 5,
+      fontFamily:'PlayfairDisplaySC-Bold',    
+    },
+
+    signInNotice:{
+      fontSize: 23, 
+     // fontStyle: 'italic', 
+      color: 'red',
+     // fontWeight: 'bold',
+      fontFamily:'PlayfairDisplaySC-BlackItalic',    
+
+    },
+
+    headerText:{
+      fontSize: 18,
+      fontFamily: "Unna-BoldItalic",
+      marginLeft: 15,
+      paddingBottom: 1,
+
+    },
+
+    fieldNames:{
+      borderTopWidth: 2, 
+      paddingTop: 13, 
+      fontSize: 22, 
+      paddingBottom: 3,
+      borderBottomWidth: 1, 
+      fontFamily: "Unna-Bold",
+    },
+    shoppingBagText:{
+      paddingTop: 15, 
+      fontSize: 22, 
+      paddingBottom: 10,
+      fontFamily: "Unna-Bold",
+      textAlign: 'center',
+      borderBottomWidth: 1, 
+    },
+
+    footers:{
+      marginHorizontal:7,
+      backgroundColor: 'pink',
+      borderRadius: 20,
+      padding: 10,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.8,
+      shadowRadius: 2,
+      elevation: 2,
+      marginBottom: 20,
+      alignself: 'center', 
+      
+
+    },
+   
+
+  
+
+    itemAllCategoryProduct: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 20,
+      padding:1,
+      margin: 20,
+    },
+
+
+    similarContainer: {
+      marginHorizontal:7,
+      backgroundColor: 'pink',
+      borderRadius: 20,
+      //padding: 15,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.8,
+      shadowRadius: 2,
+      elevation: 2,
+      marginBottom: 8,
+      marginTop: 5,
+      alignself: 'center', 
+    },
+
+    SimilarCatImage: {
+      width: 100,
+      height: 100,
+      borderRadius: 30,
+      marginRight: 10,
+    },
+
+    
+titleCatProduct: {
+  fontSize: 17,
+  //fontWeight: 'bold',
+ marginTop: 1,
+  marginBottom: 5,
+  color: 'black',
+  textAlign: 'left',
+  fontFamily: "PlayfairDisplaySC-Bold"
+
+},
+   
 
     input:{
         // borderWidth: 2, 
@@ -19,8 +208,78 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 10,
         backgroundColor: 'white',
-        borderColor: '#ccc',        
+        borderColor: '#ccc',
+        borderWidth: 2, 
+        textAlignVertical: 'top', 
+
+        
     },
+    inputProductDetails:{
+      borderWidth: 2, 
+      width: 298, 
+      height: 110, 
+      padding: 10,
+      backgroundColor: 'white',
+      borderColor: '#ccc',
+      textAlignVertical: 'top', 
+
+        
+  },
+  inputProductName:{
+    borderWidth: 2, 
+    borderColor: '#ccc',
+    width: 300, 
+    height: 50, 
+   // backgroundColor: 'white',  
+},
+
+inputSearch:{
+  borderWidth: 2, 
+  borderColor: '#ccc',
+  width: 392, 
+  height: 90, 
+  fontSize: 17,
+  fontWeight:'bold',
+
+ // backgroundColor: 'white',  
+},
+
+inputSearchText:{
+  // borderWidth: 2, 
+  borderRadius: 4, 
+  width: 392, 
+  height: 60, 
+  padding: 10,
+  marginBottom: 10,
+  marginTop: 15,
+  fontFamily:'Unna-BoldItalic',    
+  backgroundColor: 'white',
+  borderColor: '#ccc', 
+  fontSize: 27,
+       
+},
+scrollStyleContainer:{
+  flex: 1,
+  padding: 10,
+  marginTop:10,
+  marginBottom: 20,
+},
+
+scrollStyleContainerUpdate:{
+  flex: 1,
+  padding: 10,
+  marginTop:10,
+  
+},
+
+
+    addProductView:{
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop:60,
+    },
+
     errorContainer: {
     marginVertical: 4
     },
@@ -31,22 +290,28 @@ const styles = StyleSheet.create({
     title:{
       alignSelf: 'center',
       marginBottom: 10,
-      fontSize: 40
+      fontSize: 52,
+      fontFamily:'Unna-BoldItalic',    
+
     },
-    // button:{
-    //   alignSelf: 'center',
-    //   // borderWidth: 2,
-    //   // borderColor: 'white',
-    //   width: 300,
-    //   height: 40,
-    //   borderRadius:4,
-    //   justifyContent: 'center',
-    //   alignItems: 'center',
-    //   backgroundColor: 'black',
-    //   marginBottom: 20,
-      
-     
-    // },
+    extraButton:{
+       borderWidth: 1,
+      //  borderTopWidth: 1,
+      //  borderBottomWidth: 1,
+       padding:4,
+       
+
+
+    },
+
+    extraText:{
+      fontSize: 20,
+      paddingTop: 5,
+      paddingBottom: 5,
+      fontFamily: "Unna-Bold",
+   },
+
+
 
     buttonText:{
       color: 'white',
@@ -87,19 +352,55 @@ const styles = StyleSheet.create({
    borderWidth: 2,
     borderColor: 'black',
       width: 300,
+      height: 33,
       borderRadius:4,
       justifyContent: 'center',
       alignItems: 'center',
       marginBottom: 20,
       backgroundColor: 'grey',
+      marginLeft: 1,
     },
+
      buttonInfoText:{
       color: 'black',
       
     },
+
+    userTableContainer:{
+      margin: 20,
+      borderWidth:2,
+      borderColor: '#000',
+      //backgroundColor: 'pink',
+      // marginHorizontal:60,
+      // marginVertical:60,
+
+    },
+
+    userHeaderRow:{
+      flexDirection: 'row',
+      borderBottomWidth: 2,
+      borderBottomColor: 'black',
+      //borderTopWidth: 1,
+
+
+    },
+
+
+
     spButtonContainer:{
       flex: 1,
       justifyContent: 'space-between',
+    },
+    
+    UserButtonText:{
+    color: '#fff',
+      //justifyContent: 'space-between',
+      fontWeight:'bold',
+    },
+
+    borderLine:{
+      borderRightWidth: 2,
+      width:120,
     },
 
     updateUserItem:{
@@ -123,7 +424,7 @@ const styles = StyleSheet.create({
 
     spbuttonText:{
       color: 'white',
-      backgroundColor: 'black',
+      //backgroundColor: 'black',
       fontSize: 18,
       fontWeight:'bold',
       height:40,
@@ -133,6 +434,24 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between',
 
     },
+
+    userButtonEdit:{
+      backgroundColor: 'grey',
+      alignItems: 'center',
+      padding:10,
+      justifyContent: 'center',
+      width: 100, 
+      borderRadius:5,
+      margin: 5,
+      marginLeft:14,
+      marginRight:1,
+    },
+
+    userBorderLine: {
+  borderRightWidth: 2,
+  borderRightColor: 'black',
+},
+
     userContainer:{
       flex: 1,
      paddingHorizontal:10,
@@ -143,13 +462,19 @@ const styles = StyleSheet.create({
      backgroundColor: 'pink',
      padding:20,
      paddingVertical:4,
-marginBottom:3,
-marginTop:5,
-
-
-     //justifyContent: 'space-between',
-     //alignItems: 'center'
+  marginBottom:3,
+    marginTop:5,
     },
+
+    userInfoContainer:{
+      flexDirection:'row',
+    //paddingVertical:5,
+    borderBottomWidth:1,
+    borderBottomColor: '#ddd',
+    
+  },
+
+  
     studentContainer:{
       flex: 5,
       paddingHorizontal:5,
@@ -166,14 +491,60 @@ marginTop:5,
       fontWeight:'bold',
       marginRight: 5,
       fontSize: 22,
-
     },
+
+   
+ 
+ userBodStudentId: {
+  width: 120,
+  borderRightWidth: 2,
+  borderRightColor: 'black',
+},
+
+userInfoText: {
+  fontWeight:'bold',
+  flex: 1,
+  textAlign: 'center', 
+  borderRightWidth: 1,
+  fontSize: 20,
+  height: 60,
+},
+
+borderLineEmail: {
+  borderRightWidth: 2,
+  borderRightColor: 'black',
+},
+
+ userCellText: {
+  //flex: 1,
+  textAlign: 'center',   
+  //justifyContent:'center',
+  padding:10,
+  paddingTop:20,
+  borderRightWidth: 1,
+  borderRightColor: '#ddd',
+  width: 120,
+borderBottomWidth:2,
+
+},
+
+
+
+userButtonCon: {
+  flex: 1,
+  textAlign: 'center',   
+  justifyContent:'center',
+  borderRightWidth: 1,
+  borderRightColor: '#ddd',
+},
+
+
 
     userDetails:{
       paddingHorizontal:5,
       padding:10,
       fontSize: 15,
-      height: 35,
+      height: 40,
       borderWidth: 1,
       marginVertical:2,
       fontWeight:'bold',
@@ -183,9 +554,9 @@ marginTop:5,
      },
 
      stuDentDetails:{
-          padding:10,
-          
+          padding:10, 
      },
+
      label: {
       fontSize: 20,
       fontWeight: 'bold',
@@ -253,19 +624,37 @@ update:{
   fontWeight:'bold',
   paddingTop:2,
   alignItems: 'center',
-  borderWidth:2,
+  borderWidth:3,
   flexDirection:'row',
   marginVertical:5,
   textDecorationLine:'underline',
+  textAlign:'center',
+  overflow: 'hidden',
   height: 40,
-textAlign:'center',
-overflow: 'hidden',
+  width: 330, 
+
 //wordWrap: 'break-word',
 // maxHeight: '100%',
 // maxWeight: '100%',
 
 },
 
+
+updateUptItem:{
+ // fontSize:24,
+  fontWeight:'bold',
+  paddingTop:2,
+  alignItems: 'center',
+  borderWidth:3,
+  flexDirection:'row',
+  marginVertical:5,
+  textDecorationLine:'underline',
+  textAlign:'center',
+  overflow: 'hidden',
+  height: 80,
+  width: 330,
+
+},
 
 updateUser:{
   fontSize:20,
@@ -277,7 +666,7 @@ updateUser:{
   marginVertical:5,
   textDecorationLine:'underline',
   height: 80,
-textAlign:'center',
+  textAlign:'center',
 overflow: 'hidden',
 //wordWrap: 'break-word',
 maxHeight: '100%',
@@ -285,6 +674,34 @@ maxWeight: '100%',
 
 },
 
+
+updateUserInfo:{
+  fontSize:20,
+  fontWeight:'bold',
+  paddingTop:2,
+  alignItems: 'center',
+  flexDirection:'row',
+  marginVertical:5,
+  height: 80,
+  textAlign:'center',
+  //borderTopWidth:1,
+  borderBottomWidth:1
+
+
+},
+
+
+updateUserInfoText:{
+  fontSize:22,
+  paddingTop:10,
+  padding:8,
+  alignItems: 'center',
+  flexDirection:'row',
+  height: 50,
+  marginVertical:5,
+  fontFamily:'Unna-Italic',    
+
+},
 
 updateTextUser:{
   fontSize:25,
@@ -301,21 +718,16 @@ updateTextUser:{
 },
 
 updateTextInputUser:{
-  fontWeight:'bold',
-  //borderWidth:1,
+  fontFamily:'Unna-Italic',    
   paddingHorizontal:3,
-  paddingTop:7,
+  paddingBottom: 7,
   flexDirection:'row',
-  fontSize: 25,
-  height: 40,
+  fontSize: 22,
   marginVertical:2,
-  fontWeight:'bold',
-  textDecorationLine:'underline',
-
 },
 
 buttonUpdateUser: {
-  backgroundColor: 'black',
+  backgroundColor: 'grey',
   borderRadius: 5,
   padding: 10,
   marginRight: 10,
@@ -384,7 +796,23 @@ ProductContainer: {
 },
 Seller: {
   fontSize: 23,
-  fontWeight: 'bold',
+  //fontWeight: 'bold',
+  padding: 1,
+  paddingLeft: 3,
+  paddingTop: 1,
+  paddingBottom: 5,
+fontFamily: "PlayfairDisplaySC-Black"
+},
+
+orderSeller: {
+  fontSize: 23,
+  //fontWeight: 'bold',
+  padding: 1,
+  paddingTop: 1,
+  paddingBottom: 5,
+fontFamily: "PlayfairDisplaySC-Black",
+paddingLeft: 15,
+
 },
 
 productBackgroundImage: {
@@ -428,18 +856,27 @@ card: {
 productImage: {
   width: '100%',
   aspectRatio: 1,
-  
+  borderRadius: 20,
+  marginTop: 7,
+
 },
 
 productCard: {
+
+
   flex: 1,
-  marginHorizontal:10,
   backgroundColor: 'pink',
   borderRadius: 20,
-  padding: 60,
-  justifyContent: 'flex-start',
-  //flexDirection: 'column'
+  padding: 1,
+  justifyContent: 'center',
+  marginBottom: 7,
+  marginHorizontal: 5,
+  marginTop: 7,
+
 },
+
+
+
 addButtonToCart: {
   marginTop: 10,
   height: 45,
@@ -447,7 +884,7 @@ addButtonToCart: {
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: 30,
-  backgroundColor: '#00BFFF',
+  backgroundColor: 'grey',
 },
 addToCartContainer: {
   marginHorizontal: 30,
@@ -455,37 +892,36 @@ addToCartContainer: {
 
 },
 cartButtonText: {
-  color: 'black',
+  color: 'white',
   fontSize: 20,
   
 },
 userCard: {
   flex: 1,
-  marginHorizontal:10,
+  marginHorizontal:5,
   backgroundColor: 'pink',
   borderRadius: 20,
   padding: 20,
-  marginVertical:10,
+  marginVertical:6,
+  height: 715,
+},
 
-
-
-  // justifyContent: 'flex-start',
-  //flexDirection: 'column'
+scrollViewContent: {
+  padding: 20,
 },
 
 updateProductCard: {
   flex: 1,
   marginHorizontal:7,
   backgroundColor: 'pink',
-  borderRadius: 13,
-  padding: 20,
- justifyContent: 'center',
-  //flexDirection: 'column'
- // alignItems: 'center',
+ borderRadius: 13,
+   padding: 20,
+
 
 },
 updateContainer: {
-   justifyContent: 'center',
+   flex: 1,
+
 },
 updateImage: {
   width: 300,
@@ -503,15 +939,18 @@ item: {
     width:'100%',
     marginVertical:5,
     paddingHorizontal:10,
+    marginTop:10,
+    marginBottom:20,
+
 
 },
 sectionButton: {
   backgroundColor: 'grey',
-
   borderRadius: 5,
   padding: 12,
   marginHorizontal: 10,
   margin: 15,
+  width: 350,
 },
 buttonTextOption: {
   fontSize: 20,
@@ -525,6 +964,7 @@ itemContainer: {
   alignItems: 'center',
   justifyContent: 'center',
   marginTop:60,
+  
 },
 
 itemProduct: {
@@ -545,27 +985,43 @@ paddingTop: 10,
 productsName: {
   fontSize: 16,
   fontWeight: 'bold',
+  
 },
 productName: {
-  fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-},
-productDetails: {
-  fontSize: 20,
-    color: '#333',
-    lineHeight: 24,
-    paddingBottom: 5,
+  fontSize: 22,
+  //  fontWeight: 'bold',
+    fontFamily: "PlayfairDisplaySC-Bold"
+
 
 },
+productDetails: {
+  fontSize: 18,
+    color: 'black',
+    paddingTop: 13,
+    paddingBottom: 13,
+    fontFamily: "Unna-Regular",
+},
+
+orderGenDetails: {
+  fontSize: 25,
+    color: 'black',
+    paddingTop: 13,
+    paddingBottom: 13,
+    fontFamily: "Unna-Regular",
+},
+
 rowValueOne:{
   flexDirection: 'row',
-  justifyContent: 'center',
-  marginVertical:20,
-  alignItems: 'center',
+  marginTop: 5,
 },
 rowValueTwo:{
   flexDirection: 'row',
+    paddingBottom: 10,
+    marginHorizontal:10,
+    flex: 1,
+    justifyContent: 'space-between',
+
+
 },
 
 productCategory:{ 
@@ -577,18 +1033,26 @@ productCategory:{
 
 productSize:{
   alignSelf: 'flex-start',
-  paddingHorizontal: 30,
-  fontSize: 16,
+  paddingHorizontal: 23,
+  fontSize: 19,
   fontWeight: 'bold',
 
   },
 
-  productPrice:{
-    alignSelf: 'flex-start',
-    paddingHorizontal: 30,
-    fontSize: 16,
-    fontWeight: 'bold',
+  productPriceText:{
+  fontSize: 21,
+  fontWeight: 'bold',
+ 
     },
+
+    productPrice:{
+      fontSize: 21,
+    fontWeight: 'bold',
+    color: 'red',
+    padding: 1,
+        },
+
+
     productAddedDate:{
       alignSelf: 'flex-start',
       fontSize: 15,
@@ -603,9 +1067,22 @@ itemDetails: {
 },
 itemPrice: {
   fontWeight:'bold',
-  fontSize: 16,
+  fontSize: 18,
   color: '#999',
+  marginLeft: 2,
+
 },
+
+itemOrder: {
+  fontSize: 18,
+  color: '#999',
+  marginLeft: 2,
+  paddingTop: 5,
+  fontFamily: "Unna-Regular",
+  color: 'black',
+
+},
+
 buttons: {
   paddingTop: 40,
   paddingBottom: 50,
@@ -615,10 +1092,18 @@ button: {
   backgroundColor: 'grey',
   borderRadius: 5,
   padding: 10,
-  marginRight: 10,
   marginTop: 12,
   width: 300,
   height: 40,
+},
+buttonUpdateColl: {
+  backgroundColor: 'grey',
+  borderRadius: 5,
+  padding: 10,
+  marginTop: 12,
+  width: 300,
+  height: 40,
+  
 },
 
 buttonUpdate: {
@@ -632,6 +1117,29 @@ buttonUpdate: {
   justifyContent: 'center',
 marginBottom:5,
 },
+searchButton: {
+  backgroundColor: 'grey',
+  borderRadius: 5,
+  padding: 10,
+  //marginRight: 10,
+  marginTop: 12,
+  width: 392,
+  height: 50,
+marginBottom:5,
+},
+
+buttonUpdateItem: {
+  backgroundColor: 'grey',
+  borderRadius: 5,
+  //padding: 10,
+  marginBottom: 30,
+ marginTop: 12,
+  width: 340,
+  height: 40,
+  justifyContent: 'center',
+//paddingBottom:25,
+},
+
 
 updateText:{
   fontSize:20,
@@ -640,12 +1148,36 @@ updateText:{
   padding:5,
   alignItems: 'center',
   borderWidth:2,
-  flexDirection:'row',
+  //flexDirection:'row',
   height: 38,
   marginVertical:5,
   textDecorationLine:'underline',
 
 },
+
+updateTextDetailsBott:{
+  fontSize:25,
+  fontWeight:'bold',
+  paddingTop:19,
+  padding:5,
+  alignItems: 'center',
+  borderWidth:2,
+  //flexDirection:'row',
+  height: 78,
+  marginVertical:5,
+  textDecorationLine:'underline',
+},
+updateTextDetailsBottInput:{
+  fontSize:20,
+  paddingTop:1,
+  padding:5,
+  alignItems: 'center',
+  borderWidth:2,
+  //flexDirection:'row',
+  height: 78,
+  marginVertical:5,
+},
+
 buttonCategory: {
   backgroundColor: 'white',
   borderRadius: 5,
@@ -672,25 +1204,15 @@ buttonText: {
 
 registerContainer: {
   flex: 1,
-  backgroundColor: '#fff',
   alignItems: 'center',
   justifyContent: 'center',
-  backgroundColor: 'pink'
   
 },
 
 
-signInButton: {
-//    width: 60,
-//  height: 30,
-// borderRadius:70,
-//  paddingHorizontal: 50,
-//  paddingVertical: 10,
-// right:20,
-//   paddingTop: 30,
-//   	backgroundColor: 'yellow',
-//    margin: 5,
-//   	  marginLeft:15,
+verAlign: {
+  paddingTop: 25,
+
   
 },
 
@@ -724,14 +1246,16 @@ allproductImage: {
   marginRight: 20,
 },
 
+
+
 titleProduct: {
-  fontSize: 24,
+  fontSize: 20,
   fontWeight: 'bold',
- marginTop: 10,
-  marginBottom: 10,
+ marginTop: 1,
+  marginBottom: 5,
   color: 'black',
   marginHorizontal:20,
-
+  textAlign: 'left',
 },
 buttonAp: {
   borderRadius: 2,
@@ -763,13 +1287,14 @@ cardAllProduct: {
   shadowRadius: 2,
   elevation: 2,
   marginBottom: 20,
+  marginTop: 5,
 },
 
 cartContainer: {
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center',
-  paddingHorizontal:10,
+
 
 },
 cartContainerView: {
@@ -791,8 +1316,11 @@ cartDetailsContainer: {
   backgroundColor: '#fff',
   marginBottom: 10,
   width: 380, 
-  height: 150, 
-  borderRadius: 15,
+  height: 80, 
+  borderRadius: 25,
+  
+
+
 
 },
 infoCart: {
@@ -801,6 +1329,8 @@ infoCart: {
 },
 removeButton: {
   alignItems: 'center',
+  paddingLeft: 2,
+
 },
 cartImage: {
   width: 100,
@@ -814,13 +1344,46 @@ CartItemPrice: {
   fontSize: 16,
   color: '#888',
 },
+
+formContainer: {
+  marginTop: 80,
+  padding:20,
+  borderRadius:10,
+  backgroundColor:'rgba(255, 255, 255, 0.3)',
+ marginBottom: 20,
+  width: 310,
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginLeft: 50,
+
+},
+
+LoginCard: {
+  backgroundColor: '#fff',
+  borderRadius: 10,
+  shadowColor: '#000',
+  width: 280,
+  shadowOffset: {
+    width: 0,
+    height: 2,
+  },
+  shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    marginBottom: 10,
+    padding:7,
+    paddingBottom: 1,
+  },
+  loginInput: {
+    height: 40,
+    paddingHorizontal: 10,
+    borderBottomWidth:1,
+    borderBottomColor:'#B0C4DE'
+  },
+
   });
 
   export default styles;
 
   
-  //  spButton:{ flexDirection:'row'
-    //justifyContent: 'space-between',
-   // paddingHorizontal:16,
-//color: 'black'
-//   }
+  

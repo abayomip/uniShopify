@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View ,FlatList} from 'react-native'
+import { StyleSheet, Text, View ,ScrollView,FlatList} from 'react-native'
 import React from 'react'
 import { FetchCategory } from '../tools/actions/authActions'
 import { useEffect, useState } from 'react'
@@ -11,6 +11,7 @@ const Academics = ({ route, navigation }) => {
     useEffect(() => {
         const academicsItems = async () => {
             try {
+              // fetch products in the academics category
                 const itemAcademics = await FetchCategory('Academics');
                 setCategory(itemAcademics);
             } catch (error) {
@@ -22,55 +23,106 @@ const Academics = ({ route, navigation }) => {
     }, []);
 
 
-    const renderItem = ({ item }) => (
-        <View style={styles.productCard}>
-          <Image source={{ uri: item.productImage }} style={styles.productImage} />
-          <View style={styles.itemProduct}>
-            <Text style={styles.productCategory}> {item.category}</Text>
-    
-            <Text style={styles.productDetails}>Product ID: {item.productID}</Text>
-    
-            <Text style={styles.productName}> {item.productName} </Text>
-            <Text style={styles.productDetails}>Product Details: {item.productDetails}</Text>
-            <View style={styles.rowValueOne}>
-              <Text style={styles.productPrice}>Price: {item.productPrice}</Text>
-              <Text style={styles.productSize}>Product Size: {item.productSize}</Text>
-    
-            </View>
-    
-            <Text style={""}>Date Added: {item.registerDate}</Text>
-    
-          </View>
-          <View style={styles.item}>
-            <TouchableOpacity style={{
-              flex: 1, padding: 12,
-              alignItems: 'center', justifyContent: 'space-between'}} >
-              <Text onPress={() => onPressUpdateStudent(item.uid)} style={styles.spbuttonText}>  Add to bag </Text>
-    
-            </TouchableOpacity>
-    
-            <TouchableOpacity style={{
-              flex: 1, padding: 12,
-              alignItems: 'center', justifyContent: 'space-between'}} >
-              <Text onPress={() => onPressUpdateStudent(item.uid)} style={styles.spbuttonText}>  Add to Wishlist </Text>
-    
-            </TouchableOpacity>
-          </View>
-    
-    
-        </View>
+    const onPressViewProduct = (uid) => {
+
+      navigation.navigate('Product', { uid })
+      console.log("xxx:", uid);
+  
+    }
+    const onPressLoginAdmin = () => {
+      navigation.navigate('Login')
+  
+    }
+    const onPressClothing = () => {
+      navigation.navigate('Clothing')
+  
+    }
+  
+    const onPressAcademics = () => {
+      navigation.navigate('Academics')
+  
+    }
+    const onPressMobile = () => {
+      navigation.navigate('MobilePhone')
+  
+    }
+  
+    const onPressSofa = () => {
+      navigation.navigate('Sofa')
+  
+    }
+  
+    const onPressKitchen = () => {
+      navigation.navigate('Kitchen')
+  
+    }
+  
+    const onPressShoes = () => {
+      navigation.navigate('Shoes')
+  
+    }
+  
+
+ //product details are rendered as items
+ const renderItem = ({ item }) => (
+  <View style={styles.cardAllProduct}>
+
+    <View style={styles.itemAllProduct}>
+      <Image source={{ uri: item.productImage }} style={styles.allproductImage} resizeMode='contain' />
+      <View style={styles.itemContentAllProduct}>
+        <Text style={styles.productName}>{item.productName} </Text>
+        <Text style={styles.itemPrice}>Price: £{item.productPrice}</Text>
+      </View>
+    </View>
+    <TouchableOpacity onPress={() => onPressViewProduct(item.uid)} style={{
+        flexDirection: 'row', backgroundColor: 'grey',
+        borderRadius: 5,
+        paddingHorizontal: 90, paddingVertical: 8,
+
+      }}>
+        <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', textAlign: 'center', }}> View Product </Text>
+      </TouchableOpacity>
+    </View>
       );
-    
       return (
-        //<KeyboardAwareScrollView>
+             
+    <View style={{ flex: 1, }}>
+    <View>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <TouchableOpacity style={styles.buttonCategory} onPress={onPressClothing}>
+          <Text style={styles.buttonTextCat}>Clothings</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonCategory} onPress={onPressAcademics}>
+          <Text style={styles.buttonTextCat}>Academics</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonCategory} onPress={onPressMobile}>
+          <Text style={styles.buttonTextCat}>Mobiles</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonCategory} onPress={onPressSofa}>
+          <Text style={styles.buttonTextCat}>Sofa</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonCategory} onPress={onPressKitchen}>
+          <Text style={styles.buttonTextCat}>Kitchen</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonCategory} onPress={onPressShoes}>
+          <Text style={styles.buttonTextCat}>Shoes</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonCategory} onPress={onPressLoginAdmin}>
+          <Text style={styles.buttonTextCat}>Buuton 7</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonCategory} onPress={onPressLoginAdmin}>
+          <Text style={styles.buttonTextCat}>Buuton 8</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
+
         <FlatList
           data={category}
           renderItem={renderItem}
           keyExtractor={(item) => item.uid}
-        //numColumns={1} // Example: Render items in two columns
-        // Other props for customization...
+      
         />
-        // </KeyboardAwareScrollView>
+        </View>
       )
     }
 

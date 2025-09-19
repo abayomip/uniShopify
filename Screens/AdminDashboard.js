@@ -9,7 +9,7 @@ import { logout } from "../collections/authSlice";
 const AdminDashboard = ({ route, navigation }) => {
     const { uid } = route.params || {}; // Fetching the user uid
     const dispatch = useDispatch();// A hook to access redux dispatch function
-    const userData = useSelector(state => state.auth.userData);
+    const userId = useSelector(state => state.auth.userData?.uid);
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
     const onPressViewItems = () => {
@@ -25,7 +25,7 @@ const AdminDashboard = ({ route, navigation }) => {
 
     }
     const onPressReportGeneration = () => {
-        navigation.navigate('AdminOrderManagement')
+        navigation.navigate('OrderReport')
 
     }
     const onPressAddProduct = () => {
@@ -35,7 +35,8 @@ const AdminDashboard = ({ route, navigation }) => {
 
     const onPressLogout = () => {
         dispatch(logout())
-        console.log('userData after log out', uid)
+        console.log('userData after log out', userId)
+        alert("log out Successfully ")
 
         navigation.navigate('Login');
 
@@ -43,20 +44,21 @@ const AdminDashboard = ({ route, navigation }) => {
     if (!isAuthenticated) {
         return null;
     }
+
+    const onPressNewAdmin = () => {
+        navigation.navigate('AdminRegistration');
+      }
     return (
         <View style={styles.productCard}>
+      <View style={{    alignItems: 'center',
 
-            <Text style={{
-                fontStyle: 'italic', fontSize: 50, alignItems: 'center',
-                fontWeight: 'bold', paddingBottom: 5, paddingTop: 80,
-            }}>UniShopify</Text>
-            <Text style={{
-                paddingBottom: 40, fontStyle: 'italic',
-            }}>Market Place Student Place....</Text>
+}}>
+            <Text style={styles.title}>UniShopify</Text>
+            <Text style={styles.appValue}>Market Place Student Place....</Text>
             <View style={{ margin: 5, }}>
 
                 <TouchableOpacity style={styles.button} onPress={onPressViewItems}>
-                    <Text style={styles.buttonText}> View All Items </Text>
+                    <Text style={styles.buttonText}> View All Products </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button} onPress={onPressUsersManagement}>
@@ -69,6 +71,11 @@ const AdminDashboard = ({ route, navigation }) => {
                 <TouchableOpacity style={styles.button} onPress={onPressReportGeneration}>
                     <Text style={styles.buttonText}> Report Generation </Text>
                 </TouchableOpacity>
+
+                <TouchableOpacity style={styles.button} onPress={onPressNewAdmin}>
+                <Text style={styles.buttonText}> Register new admin </Text>
+                </TouchableOpacity>
+
                 <TouchableOpacity style={styles.button} onPress={onPressAddProduct}>
                     <Text style={styles.buttonText}> Add Product </Text>
                 </TouchableOpacity>
@@ -78,7 +85,7 @@ const AdminDashboard = ({ route, navigation }) => {
             </TouchableOpacity>
             </View>
 
-
+            </View>
         </View>
     )
 }

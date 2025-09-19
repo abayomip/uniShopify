@@ -41,9 +41,8 @@ const RegisterAdmin = ({ navigation }) => {
     const [formState, dispatchFormState] = useReducer(reducer, initialState);
     const dispatch = useDispatch();// A hook to access redux dispatch function
   
-      //The inputHandler function is use to respond to the formState. 
-    //A callback function is used to manage changes to user entries fields and it takes the parameter id and value
-    //it will return memorised version of the callback that only changes if one of the input changes
+ //A callback function 'useCallback' is used to manage changes to user entries fields, it takes the parameter id and value
+  //the inputHandler return a memorised version of the callback function, that only changes if one of the input changes
     const inputHandler = useCallback((inputId, inputValue) => {
       //validating the user entries with the validateInputData functions and obtaining the result
       const result = validateInputData(inputId, inputValue);
@@ -62,8 +61,7 @@ const RegisterAdmin = ({ navigation }) => {
           formState.entryValues.email,
           formState.entryValues.password,
           formState.entryValues.confirmPassword
-  
-  
+
         );
         //Dispatch the action to the redux state management
   
@@ -91,6 +89,8 @@ const RegisterAdmin = ({ navigation }) => {
 
   
           <Text style={styles.title}>uniShopify</Text>
+          <Text style={styles.appValue}>Market Place Student Place....</Text>
+
           <View style={{ marginVertical: 22 }}>
             <Input
               //style={styles.input}
@@ -99,6 +99,8 @@ const RegisterAdmin = ({ navigation }) => {
               // onChangeText={(text) => inputHandler(firstname)}
               errorText={formState.entryValidities["firstname"]}
               onInputChanged={inputHandler}
+              textInputStyle={styles.inputProductName}
+
             />
   
             <Input
@@ -108,6 +110,8 @@ const RegisterAdmin = ({ navigation }) => {
               //onChangeText={(text) => inputHandler(lastname)}
               errorText={formState.entryValidities["lastname"]}
               onInputChanged={inputHandler}
+              textInputStyle={styles.inputProductName}
+
             />
             <Input
               // style={styles.input}
@@ -116,6 +120,9 @@ const RegisterAdmin = ({ navigation }) => {
               //onChangeText={(text) => inputHandler(username)}
               errorText={formState.entryValidities["username"]}
               onInputChanged={inputHandler}
+              textInputStyle={styles.inputProductName}
+              
+
   
             />
   
@@ -126,6 +133,8 @@ const RegisterAdmin = ({ navigation }) => {
               //onChangeText={(text) => inputHandler(email)}
               errorText={formState.entryValidities["email"]}
               onInputChanged={inputHandler}
+              textInputStyle={styles.inputProductName}
+
   
             />
   
@@ -138,28 +147,19 @@ const RegisterAdmin = ({ navigation }) => {
               errorText={formState.entryValidities["password"]}
               onInputChanged={inputHandler}
               secureTextEntry={true}
-  
-  
-            />
-            <Input
-              //style={styles.input}
-              id="confirmPassword"
-              placeholder='Confirm Password'
-              //onChangeText={(text) => inputHandler(confirmPassword)}
-              errorText={formState.entryValidities["confirmPassword"]}
-              onInputChanged={inputHandler}
-              secureTextEntry={true}
-  
+              textInputStyle={styles.inputProductName}
+
   
             />
-  
+      
+  <View style={{  alignItems: 'center',
+}} >
             <TouchableOpacity style={styles.button} onPress={onPressRegisterAdmin}>
               {isLoading && <ActivityIndicator size="small" color="#fff" />}
               <Text style={styles.buttonText}> {isLoading ? 'Registering...' : 'Register'} </Text>
   
             </TouchableOpacity>
-  
-            <Button title="Go back" onPress={() => navigation.goBack()} />
+            </View>
   
             </View>
         </View>

@@ -1,3 +1,4 @@
+
 import { StyleSheet, Text, View, FlatList, Button, KeyboardAwareScrollView, ScrollView } from 'react-native';
 import React from 'react'
 import { useEffect, useState, setData } from 'react'
@@ -81,44 +82,75 @@ const Item = ({ route, navigation }) => {
   const renderItem = ({ item }) => (
     <View style={styles.productCard}>
       <View style={{
-}}>
-      <Text style={styles.Seller}> {item.seller}</Text>
+      }}>
 
-      <Image source={{ uri: item.productImage }} style={styles.productImage} />
-      <View style={styles.itemProduct}>
-      <Text style={styles.productDetails}>Product ID: {item.productID}</Text>
+        <Image source={{ uri: item.productImage }} style={styles.productImage} />
+        <View style={styles.itemProduct}>
 
-        <Text style={styles.productCategory}> Category: {item.category}</Text>
+          <Text style={styles.Seller}>{item.seller}</Text>
+          <Text style={{ fontSize: 14 }}>{item.category}</Text>
+          <Text style={styles.productName}>{item.productName}</Text>
+
+          <View style={{ flexDirection: 'row', marginTop: 5,marginBottom: 5,}}>
+            <Text style={styles.productPrice}>£{item.productPrice}</Text>
+          </View>
 
 
-        <Text style={styles.productName}> {item.productName} </Text>
-        <Text style={styles.productDetails}> {item.productDetails}</Text>
-        <View style={styles.rowValueOne}>
-          <Text style={styles.productPrice}>Price: £{item.productPrice}</Text>
-          <Text style={styles.productSize}>Product Size: {item.productSize}</Text>
+          <Text style={styles.fieldNames}>Product Description:</Text>
+
+          <Text style={styles.productDetails}>{item.productDetails}</Text>
+
+
+
+               
+
+
+
+
+
+
+
+                       
+
+          <Text style={styles.fieldNames}>Product Size: </Text>
+
+          <Text style={styles.productDetails}> {item.productSize}</Text>
+          <Text style={styles.fieldNames}>Product ID: </Text>
+
+          <Text style={styles.productDetails}> {item.productID}</Text>
+
+          <Text style={styles.fieldNames}>Registered Date </Text>
+
+<Text style={styles.productDetails}> {item.registerDate}</Text>
 
         </View>
+        <View style={styles.item}>
+          <View>
+          <TouchableOpacity style={styles.sectionButton}  >
+              <Text onPress={() => onPressUpdateStudent(item.uid)} style={{
+                fontSize: 20,
+                color: '#fff',
+                marginLeft: 120,
 
-        <Text style={styles.productAddedDate}>Date Added: {item.registerDate}</Text>
+                fontWeight: 'bold', width: 120,
+              }}>  Update </Text>
+
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.sectionButton} >
+              <Text onPress={() => onPressItemDelete(item.uid)} style={{
+                fontSize: 20,
+                color: '#fff',
+                marginLeft: 120,
+                fontWeight: 'bold', width: 120,
+              }}>  Delete </Text>
+            </TouchableOpacity>
+
+            
+          </View>
         </View>
       </View>
-      <View style={styles.item}>
-      <TouchableOpacity style={styles.sectionButton} >
 
-          <Text onPress={() => onPressItemDelete(item.uid)} style={{fontSize: 20,
-  color: '#fff',
-  textAlign: 'center',
-  fontWeight: 'bold',  width: 120,}}>  Delete </Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity style={styles.sectionButton}  >
-          <Text onPress={() => onPressUpdateStudent(item.uid)} style={{fontSize: 20,
-  color: '#fff',
-  textAlign: 'center',
-  fontWeight: 'bold',  width: 120,}}>  Update </Text>
-
-        </TouchableOpacity>
-      </View>
 
 
     </View>
@@ -137,4 +169,5 @@ const Item = ({ route, navigation }) => {
   )
 }
 export default Item
+
 

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, Button, TextInput, image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, FlatList, ScrollView, Button, TextInput, image, TouchableOpacity } from 'react-native';
 import React from 'react'
 import { useEffect, useState, useRef, setData } from 'react'
 import styles from '../assets/stylesheets/style'
@@ -136,8 +136,11 @@ const UpdateItem = ({ navigation, route }) => {
       {Loading ? (
         <Text>Loading...</Text>
       ) : (
-        <View style={styles.updateContainer}  >
-          <View >
+        <View style={{flex: 1,  alignItems: 'center',  marginTop:1,
+        }}  >
+                <ScrollView style={styles.scrollStyleContainerUpdate}>
+
+         
             {productData.map((data, index) => (
               <View key={index}>
 
@@ -147,6 +150,8 @@ const UpdateItem = ({ navigation, route }) => {
                 <TouchableOpacity style={styles.buttonUpdate} onPress={() => onImageSelect(index)} >
                   <Text style={styles.buttonText}> click to update item picture </Text>
                 </TouchableOpacity>
+     
+
                 <View style={styles.update} >
                   <Text style={styles.updateText} >Category:</Text>
                   <TextInput
@@ -156,6 +161,7 @@ const UpdateItem = ({ navigation, route }) => {
                     style={styles.updateTextInput}
                   />
                 </View>
+                
                 <View style={styles.update} >
                   <Text style={styles.updateText} >Seller:</Text>
                   <TextInput
@@ -165,9 +171,10 @@ const UpdateItem = ({ navigation, route }) => {
                     style={styles.updateTextInput}
                   />
                 </View>
+                
 
                 <View style={styles.update} >
-                  <Text style={styles.updateText}>Item ID:</Text>
+                  <Text style={styles.updateText}>Product ID:</Text>
                   <TextInput
                     value={data.productID}
                     onChangeText={(text) => manageInput(text, index, 'productID')}
@@ -177,7 +184,7 @@ const UpdateItem = ({ navigation, route }) => {
                   />
                 </View>
                 <View style={styles.update} >
-                  <Text style={styles.updateText}>Name:</Text>
+                  <Text style={styles.updateText}>Product Name:</Text>
                   <TextInput
                     value={data.productName}
                     onChangeText={(text) => manageInput(text, index, 'productName')}
@@ -185,13 +192,14 @@ const UpdateItem = ({ navigation, route }) => {
                     style={styles.updateTextInput}
                   />
                 </View>
-                <View style={styles.update} >
-                  <Text style={styles.updateText}>Details:</Text>
+                <View style={styles.updateUptItem} >
+                  <Text style={styles.updateTextDetailsBott}>Details:</Text>
                   <TextInput
                     value={data.productDetails}
                     onChangeText={(text) => manageInput(text, index, 'productDetails')}
                     editable={true}
-                    style={styles.updateTextInput}
+                    style={styles.updateTextDetailsBottInput}
+                    multiline
                   />
                 </View>
 
@@ -214,20 +222,17 @@ const UpdateItem = ({ navigation, route }) => {
                     style={styles.updateTextInput}
                   />
                 </View>
-                <View style={styles.update} >
-                  <Text style={styles.updateText}>registerDate:</Text>
-                  <TextInput
-                    value={data.registerDate}
-                    onChangeText={(text) => manageInput(text, index, 'registerDate')}
-                    editable={true}
-                    style={styles.updateTextInput}
-                  />
-                </View>
               </View>
+            
             ))}
-          </View>
-          <Button title="Update" onPress={() => onPressUpdateItem(uid, productData, downloadURL)} />
-
+                         <View style={{flex: 1,justifyContent: 'flex-end'
+}} >
+          <TouchableOpacity style={styles.buttonUpdateItem} onPress={() => onPressUpdateItem(uid, productData, downloadURL)} >
+                  <Text style={styles.buttonText}> Update </Text>
+                </TouchableOpacity>
+              
+                </View>
+                </ScrollView>
         </View>
       )}
     </View>
@@ -242,4 +247,5 @@ const UpdateItem = ({ navigation, route }) => {
 
 export default UpdateItem
 
+//          <Button title="Update" onPress={() => onPressUpdateItem(uid, productData, downloadURL)} />
 

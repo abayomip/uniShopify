@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react';
 import styles from '../assets/stylesheets/style'
-import TextInput from '../assets/stylesheets/style'
 
 //A function component for the login dashboard
 const Login = ({ route, navigation }) => {
@@ -16,21 +15,24 @@ const Login = ({ route, navigation }) => {
 
     return (
         <View style={styles.productCard}>
+            <View style={{
+                alignItems: 'center',
+            }}>
+                <Text style={styles.appLogo}>UniShopify</Text>
+                <Text style={styles.appValue}>Market Place Student Place....</Text>
+                <View style={{
+                    margin: 5, paddingBottom: 120, marginBottom: 70,
+                }}>
 
-            <Text style={{fontStyle: 'italic', fontSize: 50, alignItems: 'center',
-    fontWeight: 'bold', paddingBottom: 5, paddingTop: 80,
-}}>UniShopify</Text>
-            <Text style={{paddingBottom: 40,fontStyle: 'italic',
-}}>Market Place Student Place....</Text>
-        <View style={{margin:5,}}>
 
-            <TouchableOpacity style={styles.button} onPress={onPressLoginAdmin}>
-                <Text style={styles.buttonText}> Admin Login </Text>
-            </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={onPressLoginAdmin}>
+                        <Text style={styles.buttonText}> Admin Login </Text>
+                    </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button} onPress={onPressLoginStudent}>
-                <Text style={styles.buttonText}> Student Login </Text>
-            </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={onPressLoginStudent}>
+                        <Text style={styles.buttonText}> Student Login </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
 
         </View>

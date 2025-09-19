@@ -22,6 +22,7 @@ const initialState = {
     studentId: isTestMode ? "12345678" : "",
     email: isTestMode ? "example@example.com" : "",
     password: isTestMode ? "************" : "",
+    seller: isTestMode ? "Ali" : "",
   },
   entryValidities: {
     firstname: false,
@@ -30,6 +31,8 @@ const initialState = {
     studentId: false,
     email: false,
     password: false,
+    seller: false,
+
 
   },
   EntryIsValid: false,
@@ -42,9 +45,8 @@ const RegisterUser = ({ navigation }) => {
     const [formState, dispatchFormState] = useReducer(reducer, initialState);
     const dispatch = useDispatch();// A hook to access redux dispatch function
   
-      //The inputHandler function is use to respond to the formState. 
-    //A callback function is used to manage changes to user entries fields and it takes the parameter id and value
-    //it will return memorised version of the callback that only changes if one of the input changes
+  //A callback function 'useCallback' is used to manage changes to user entries fields, it takes the parameter id and value
+  //the inputHandler return a memorised version of the callback function, that only changes if one of the input changes
     const inputHandler = useCallback((inputId, inputValue) => {
       //validating the user entries with the validateInputData functions and obtaining the result
       const result = validateInputData(inputId, inputValue);
@@ -52,7 +54,7 @@ const RegisterUser = ({ navigation }) => {
       dispatchFormState({ inputId, VerifyResult: result, inputValue })
     }, [dispatchFormState])
   
-    //This onPress function create an action using the StudentRegister function with the user enterd values
+    //This onPress function create an action using the registerUser function with the user input values
     const onPressRegisterAdmin = async () => {
       try {
         setIsLoading(true);
@@ -62,8 +64,9 @@ const RegisterUser = ({ navigation }) => {
           formState.entryValues.username,
           formState.entryValues.studentId,
           formState.entryValues.email,
-          formState.entryValues.password
-  
+          formState.entryValues.password,
+          formState.entryValues.seller
+
   
         );
         //Dispatch the action to the redux state management
@@ -73,9 +76,9 @@ const RegisterUser = ({ navigation }) => {
         alert("New User Account Created", "Account Created")
         setError(null);
         setIsLoading(false);
-        //Navigate to the AdminDashboard screen
-  
-        navigation.navigate("AdminLogin");
+        
+        //Navigate to the UsersHomeScreen screen so the user can login to the application with the registered credentials.
+        navigation.navigate("UsersHomeScreen");
       } catch (error) {
         console.log('error');
         setError(error.message);
@@ -94,72 +97,81 @@ const RegisterUser = ({ navigation }) => {
           <Text style={styles.title}>uniShopify</Text>
           <View style={{ marginVertical: 22 }}>
             <Input
-              //style={styles.input}
               id="firstname"
               placeholder='Firstname'
-              // onChangeText={(text) => inputHandler(firstname)}
               errorText={formState.entryValidities["firstname"]}
               onInputChanged={inputHandler}
+              textInputStyle={styles.inputProductName}
+
             />
   
             <Input
-              //  style={styles.input}
               id="lastname"
               placeholder='Lastname'
-              //onChangeText={(text) => inputHandler(lastname)}
               errorText={formState.entryValidities["lastname"]}
               onInputChanged={inputHandler}
+              textInputStyle={styles.inputProductName}
+
             />
             <Input
-              // style={styles.input}
               id="username"
               placeholder='Username'
-              //onChangeText={(text) => inputHandler(username)}
               errorText={formState.entryValidities["username"]}
               onInputChanged={inputHandler}
+              textInputStyle={styles.inputProductName}
+
   
             />
              <Input
             id="StudentID"
             placeholder='StudentID'
-            //onChangeText={(text) => inputHandler(email)}
             errorText={formState.entryValidities["StudentID"]}
             onInputChanged={inputHandler}
-  
+            textInputStyle={styles.inputProductName}
+
   
             />
   
             <Input
-              //  style={styles.input}
               id="email"
               placeholder='email'
-              //onChangeText={(text) => inputHandler(email)}
               errorText={formState.entryValidities["email"]}
               onInputChanged={inputHandler}
-  
+              textInputStyle={styles.inputProductName}
+
             />
   
             <Input
-  
-              //style={styles.input}
               id="password"
               placeholder='Password'
-              //onChangeText={(text) => inputHandler(password)}
               errorText={formState.entryValidities["password"]}
               onInputChanged={inputHandler}
               secureTextEntry={true}
+              textInputStyle={styles.inputProductName}
+
   
+            />
+            
+            <Input
+              id="seller"
+              placeholder='Seller'
+              errorText={formState.entryValidities["seller"]}
+              onInputChanged={inputHandler}
+              secureTextEntry={true}
+              textInputStyle={styles.inputProductName}
+
   
             />
            
-  
+           <View style={{  alignItems: 'center',
+}} >
             <TouchableOpacity style={styles.button} onPress={onPressRegisterAdmin}>
               {isLoading && <ActivityIndicator size="small" color="#fff" />}
               <Text style={styles.buttonText}> {isLoading ? 'Registering...' : 'Register'} </Text>
   
             </TouchableOpacity>
-  
-            <Button title="Go back" onPress={() => navigation.goBack()} />
+            </View>
+
   
           </View>
   

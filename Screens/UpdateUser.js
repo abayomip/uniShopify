@@ -67,16 +67,19 @@ const UpdateUser = ({ navigation, route }) => {
 
   return (
     <View style={styles.userContainer} >
-      <Text style={styles.update}>USER DETAILS:</Text>
+      <Text style={{fontSize:20,  textAlign:'center',
+        fontWeight:'bold',  textDecorationLine:'underline',
+        
+}}>USER DETAILS:</Text>
       {Loading ? (
         <Text>Loading...</Text>
       ) : (
         <View >
-          <View >
+          <View style={{marginLeft: 6,marginRight: 6,marginTop:20,}} >
             {updateUserData.map((data, index) => (
               <View key={index}>
-                <View style={styles.updateUser} >
-                  <Text style={styles.updateTextUser}>Firstame:</Text>
+                <View style={styles.updateUserInfo} >
+                  <Text style={styles.updateUserInfoText}>Firstame:</Text>
                   <TextInput
                     value={data.firstname}
                     onChangeText={(text) => manageInput(text, index, 'firstname')}
@@ -84,8 +87,8 @@ const UpdateUser = ({ navigation, route }) => {
                     style={styles.updateTextInputUser}
                   />
                 </View>
-                <View style={styles.updateUser} >
-                  <Text style={styles.updateTextUser}>Last Name:</Text>
+                <View style={styles.updateUserInfo} >
+                  <Text style={styles.updateUserInfoText}>Last Name:</Text>
                   <TextInput
                     value={data.lastname}
                     onChangeText={(text) => manageInput(text, index, 'lastname')}
@@ -93,8 +96,8 @@ const UpdateUser = ({ navigation, route }) => {
                     style={styles.updateTextInputUser}
                   />
                 </View>
-                <View style={styles.updateUser} >
-                  <Text style={styles.updateTextUser}>Username:</Text>
+                <View style={styles.updateUserInfo} >
+                  <Text style={styles.updateUserInfoText}>Username:</Text>
                   <TextInput
                     value={data.username}
                     onChangeText={(text) => manageInput(text, index, 'username')}
@@ -102,8 +105,8 @@ const UpdateUser = ({ navigation, route }) => {
                     style={styles.updateTextInputUser}
                   />
                 </View>
-                <View style={styles.updateUser} >
-                  <Text style={styles.updateTextUser}>Student Id:</Text>
+                <View style={styles.updateUserInfo} >
+                  <Text style={styles.updateUserInfoText}>Student Id:</Text>
                   <TextInput
                     value={data.studentId}
                     onChangeText={(text) => manageInput(text, index, 'studentId')}
@@ -111,8 +114,8 @@ const UpdateUser = ({ navigation, route }) => {
                     style={styles.updateTextInputUser}
                   />
                 </View>
-                <View style={styles.updateUser} >
-                  <Text style={styles.updateTextUser}>Email:</Text>
+                <View style={styles.updateUserInfo} >
+                  <Text style={styles.updateUserInfoText}>Email:</Text>
                   <TextInput
                     value={data.email}
                     onChangeText={(text) => manageInput(text, index, 'email')}
@@ -121,15 +124,7 @@ const UpdateUser = ({ navigation, route }) => {
 
                   />
                 </View>
-                <View style={styles.updateUser} >
-                  <Text style={styles.updateText}>Password:</Text>
-                  <TextInput
-                    value={data.password}
-                    onChangeText={(text) => manageInput(text, index, 'password')}
-                    editable={true}
-                    style={styles.updateTextInputUser}
-                  />
-                </View>
+              
                 
               
              
@@ -137,10 +132,13 @@ const UpdateUser = ({ navigation, route }) => {
               </View>
             ))}
           </View >
-          
+          <View style={{  marginTop:20,
+}} >
+
           <TouchableOpacity style={styles.buttonUpdateUser} onPress={() => onPressUpdateStudent(uid, updateUserData)} >
                   <Text style={styles.buttonText}> Update </Text>
                 </TouchableOpacity>
+                </View>
         </View>
       )}
     </View>

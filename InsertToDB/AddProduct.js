@@ -1,67 +1,45 @@
 import React from 'react'
-import { StyleSheet, Text, View, KeyboardAvoidingView, Button, TouchableOpacity, ActivityIndicator, TouchableWithoutFeedback, TouchableHighlight, Image, } from 'react-native'
+import { StyleSheet, Text, TextInput,View, KeyboardAvoidingView,ScrollView, Button, TouchableOpacity, ActivityIndicator, TouchableWithoutFeedback, TouchableHighlight, Image, } from 'react-native'
 import { useEffect, useState, useRef, useReducer, useCallback } from 'react'
 import styles from '../assets/stylesheets/style'
-import Input from '../assets/stylesheets/textInput'
+
 import * as ImagePicker from 'expo-image-picker';
 import { ref, uploadBytesResumable, getDownloadURL, downloadURL } from "firebase/storage";
-import { reducer } from '../tools/reducers/formReducer';
-import { validateProductInput } from '../tools/actions/formActions';
-import { CreateItem } from '../tools/actions/authActions'
-import { useDispatch } from 'react-redux';
+
+//import { useDispatch } from 'react-redux';
 import { getStorageInstance, getFirebaseApp } from "../Backend/FirebaseHandler";
+import { addProductToCollection } from '../tools/actions/authActions'
 
 
 
-const isTestMode = true;
-//declaring the initial state of the form and its validity status
+
 
 const initialState = {
-  entryValues: {
-    productImage: isTestMode ? "Image" : "",
-    productName: isTestMode ? "Gucci Print T.Shirt" : "",
-    productDetails: isTestMode ? "Designs by London-based artist and illustrator Hattie Stewart lend a vibrant and playful touch to the House's Pre-Fall 2024 collection" : "",
-    category: isTestMode ? "Clothing" : "",
-    productSize: isTestMode ? "M" : "",
-    productPrice: isTestMode ? "£550" : "",
-    productID: isTestMode ? "001" : "",
-    seller: isTestMode ? "SoSo Ventures" : "",
-  },
-  entryValidities: {
-    productImage: false,
-    productName: false,
-    productDetails: false,
-    category: false,
-    productSize: false,
-    productPrice: false,
-    productID: false,
-    seller: false,
-  },
-  EntryIsValid: false,
-}
+
+    productImage: "",
+    productName: "",
+    productDetails:"",
+    category:"",
+    productSize: "",
+    productPrice: "",
+    productID: "",
+    seller: "",
+  }
+
 const AddProduct = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("null");
-  const [formState, dispatchFormState] = useReducer(reducer, initialState);
-  const dispatch = useDispatch();// A hook to access redux dispatch function
+
   const [image, setImage] = useState("");
   const [progress, setProgress] = useState(0)
   const [uid, setUid] = useState('');
   const [downloadURL, setDownloadURL] = useState("")
+  const [product, setProduct] = useState(initialState);
 
 
-  //The inputHandler function is use to respond to the formState. 
-  //A callback function is used to manage changes to user entries fields and it takes the parameter id and value
-  //it will return memorised version of the callback that only changes if one of the input changes
-  const inputHandler = useCallback((inputId, inputValue) => {
-    //validating the user entries with the validateInputData functions and obtaining the result
-    const result = validateProductInput(inputId, inputValue);
-    //dispatch an action to Update the formstate depending on the entered values
-    dispatchFormState({ inputId, VerifyResult: result, inputValue })
-  }, [dispatchFormState])
+ 
 
-
-  //Function to selct image and store to the DB storage
+  //Function to select image and store to the DB storage
   const onImageSelect = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       quality: 1,
@@ -75,11 +53,11 @@ const AddProduct = ({ navigation }) => {
     if (!result.canceled) {
       setImage(result.assets[0].uri)
       //upload image to database
-      await upLoadStudentImage(result.assets[0].uri, "image")
+      await upLoadProductImage(result.assets[0].uri, "image")
     }
   }
 
-  const upLoadStudentImage = async (uri, fileType) => {
+  const upLoadProductImage = async (uri, fileType) => {
     const response = await fetch(uri);
     const blob = await response.blob();
 
@@ -117,146 +95,131 @@ const AddProduct = ({ navigation }) => {
   }
 
 
-
-  //This onPress function create an action using the StudentRegister function with the user enterd values
-  const onPressCreateProduct = async () => {
-    try {
-      setIsLoading(true);
-      const action = CreateItem(
-        downloadURL,
-        formState.entryValues.productName,
-        formState.entryValues.productDetails,
-        formState.entryValues.category,
-        formState.entryValues.productSize,
-        formState.entryValues.productPrice,
-        formState.entryValues.productID,
-        formState.entryValues.seller
-
-
-      );
-      //Dispatch the action to the redux state management
-      dispatch(action);
-
-      alert("Product Succefully created", "Item Created")
-      setError(null);
-      setIsLoading(false);
-      //Navigate to the AdminDashboard screen
-      navigation.navigate("AdminDashboard");
-    } catch (error) {
-      console.log('error');
-      setError(error.message);
-    }
-  }
-
-
+  const {productImage, productName, productDetails,
+    category, productSize, productPrice,productID,seller,} = product
+ 
+ const handleInput = (field,value) =>{
+   setProduct({
+     ...product,
+     [field]: value,
+   })
+ }
+ const onPressCreateProduct = async () => {
+     try{
+       if (productImage && productName && productDetails && category, 
+         productSize && productPrice && productID &&seller){
+           const newProduct ={
+            productImage:downloadURL,            
+             productName, productDetails,
+             category, productSize, productPrice,productID,seller,
+             registerDate: new Date().toISOString()
+           }
+           const newProductId = await addProductToCollection(newProduct)
+           setProduct(initialState);
+           alert("Product Succefully created: ", newProductId)
+          }else{
+             alert('Please complete each fields')
+           } 
+         } catch (error) {
+             console.log('error');
+             setError(error.message);
+           
+         }
+       }
   return (
     <KeyboardAvoidingView
       style={styles.productCard}
       behaviour="padding"
     >
-
-
-      <Text style={{ fontSize: 50, fontWeight: 'bold', paddingBottom: 30, color: 'grey', }}>uniShopify</Text>
+          <View style={{flex: 1,  alignItems: 'center',}}>
 
       {image &&
 
         <Image source={{ uri: image }} style={{
-          width: 300, height: 200, alignItems: 'center', borderWidth: 2,
+          width: 370, height: 300, alignItems: 'center', borderWidth: 3,marginTop: 9,borderRadius:5,
+
         }} />}
 
       <TouchableOpacity onPress={onImageSelect}>
-        <View style={{ marginBottom: 10 }}>
-          <Text style={{
-            fontWeight: 'bold', fontSize: 20, color: 'grey', paddingHorizontal: 3, padding: 2,
-          }}>Click to Select a product Image</Text>
+        <View style={{  }}>
+          <Text style={styles.viewTotalSales}>Click to Select a product Image</Text>
         </View>
       </TouchableOpacity>
+      <ScrollView style={styles.scrollStyleContainer}>
 
-      <Input
-        //style={styles.input}
-        id="productName"
+      <TextInput
+       style={styles.input}
+        value ={productName}
         placeholder='productName'
-        // onChangeText={(text) => inputHandler(firstname)}
-        errorText={formState.entryValidities["productName"]}
-        onInputChanged={inputHandler}
+        onChangeText = {(value)=> handleInput('productName', value)}
+
+        
+
       />
-      <Input
-        //style={styles.input}
-        id="productDetails"
+      
+     <View  style={{marginBottom: 10,}}>
+      <TextInput
+             style={styles.inputProductDetails}
+        value ={productDetails}
         placeholder='productDetails'
-        // onChangeText={(text) => inputHandler(firstname)}
-        errorText={formState.entryValidities["productDetails"]}
-        onInputChanged={inputHandler}
+        onChangeText = {(value)=> handleInput('productDetails', value)}
+        multiline
       />
-
-      <Input
-        // style={styles.input}
-        id="category"
+</View>
+      <TextInput
+             style={styles.input}
+        value={category}
         placeholder='category'
-        //onChangeText={(text) => inputHandler(username)}
-        errorText={formState.entryValidities["category"]}
-        onInputChanged={inputHandler}
+        onChangeText = {(value)=> handleInput('category', value)}
 
+        
       />
 
-      <Input
-        //  style={styles.input}
-        id="productSize"
+      <TextInput
+        style={styles.input}
+        value={productSize}
         placeholder='productSize'
-        //onChangeText={(text) => inputHandler(email)}
-        errorText={formState.entryValidities["productSize"]}
-        onInputChanged={inputHandler}
+        onChangeText = {(value)=> handleInput('productSize', value)}
 
       />
-      <Input
-
-        //style={styles.input}
-        id="productPrice"
+      <TextInput
+        style={styles.input}
+        value={productPrice}
         placeholder='productPrice'
-        //onChangeText={(text) => inputHandler(password)}
-        errorText={formState.entryValidities["productPrice"]}
-        onInputChanged={inputHandler}
-
+        onChangeText = {(value)=> handleInput('productPrice', value)}
+        
 
       />
 
-      <Input
-
-        //style={styles.input}
-        id="productID"
+      <TextInput
+        style={styles.input}
+        value ={productID}
         placeholder='productID'
-        //onChangeText={(text) => inputHandler(password)}
-        errorText={formState.entryValidities["productID"]}
-        onInputChanged={inputHandler}
-
+        onChangeText = {(value)=> handleInput('productID', value)}
 
       />
-      <Input
-
-        //style={styles.input}
-        id="seller"
+      <TextInput
+        style={styles.input}
+        value={seller}
         placeholder='seller'
-        //onChangeText={(text) => inputHandler(password)}
-        errorText={formState.entryValidities["seller"]}
-        onInputChanged={inputHandler}
-
+        onChangeText = {(value)=> handleInput('seller', value)}
 
       />
 
+</ScrollView>
 
 
-
-      <TouchableOpacity style={styles.button} onPress={onPressCreateProduct}>
+<View style={{  marginBottom: 45,
+}}>
+      <TouchableOpacity style={styles.buttonUpdateColl} onPress={onPressCreateProduct}>
         {isLoading && <ActivityIndicator size="small" color="#fff" />}
-        <Text style={styles.buttonText}> {isLoading ? 'Registering...' : 'Register'} </Text>
+        <Text style={styles.buttonText}> {isLoading ? 'Registering...' : 'Add To Collection'} </Text>
 
       </TouchableOpacity>
 
-      {/* <Button title="Go back" onPress={() => navigation.goBack()} /> */}
+      </View>
 
-
-
-
+      </View>
     </KeyboardAvoidingView>
   )
 }

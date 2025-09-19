@@ -4,57 +4,33 @@ import { useEffect, useState } from 'react'
 import styles from '../assets/stylesheets/style'
 import { ViewProducts } from '../tools/actions/authActions'
 import { Image, TouchableOpacity } from 'react-native';
-import { firstnameRetriever } from '../tools/actions/authActions'
 
 
-const AllProduct = ({ route, navigation }) => {
+const UsersHomeScreen = ({ route, navigation }) => {
   const [productData, setProductData] = useState([])
-  const [firstname, setFirstname] = useState([])
-  const { uid } = route.params || {}; // Fetching the user uid
- 
 
-  useEffect(() => {
-    //Fetch user details 
-    async function fetctUser() {
-      const data = await firstnameRetriever();
-      console.log("Loggedinp user", data)
-      //fetch user details to studentData
-      const studentData = JSON.parse(data);
-
-      //fetch particular user uid details
-      if (studentData) {
-        setFirstname(studentData.firstname)
-      }
-      console.log("user", studentData)
-
-    }
-    fetctUser()
-
-  }, [uid]);
 
   useEffect(() => {
     //Fetch product details 
     ViewProducts()
       .then((fetchData) => {
         console.log("fetchData:", fetchData);
-
+        // utilizing useState to update the retreived data 
         setProductData(fetchData);
         console.log("setProductData:", productData);
       })
       .catch((error) => console.error("Error fetching data: ", error));
   }, []);
 
-    //onPress button to navigate to the selected product
+  //onPress button to navigate to the update screen
   const onPressViewProduct = (uid) => {
 
-    navigation.navigate('Item', { uid })
+    navigation.navigate('UserProductView', { uid })
     console.log("xxx:", uid);
 
   }
-    //onPress button to navigate to the category screen
-  const onPressLoginAdmin = () => {
+  const onPressLogin = () => {
     navigation.navigate('Login')
-
   }
   const onPressClothing = () => {
     navigation.navigate('Clothing')
@@ -85,6 +61,7 @@ const AllProduct = ({ route, navigation }) => {
 
   }
 
+
   //product details are rendered as items
   const renderItem = ({ item }) => (
     <View style={styles.cardAllProduct}>
@@ -110,50 +87,51 @@ const AllProduct = ({ route, navigation }) => {
   );
   return (
 
-
+    //Display all item categories
     <View style={{ flex: 1, }}>
       <View>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <TouchableOpacity style={styles.buttonCategory} onPress={onPressClothing}>
-            <Text style={styles.buttonTextCat}> Clothings! </Text>
+            <Text style={styles.buttonTextCat}>Clothings</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buttonCategory} onPress={onPressAcademics}>
-            <Text style={styles.buttonTextCat}> Academics! </Text>
+            <Text style={styles.buttonTextCat}>Academics</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buttonCategory} onPress={onPressMobile}>
-            <Text style={styles.buttonTextCat}> Mobiles! </Text>
+            <Text style={styles.buttonTextCat}>Mobiles</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buttonCategory} onPress={onPressSofa}>
-            <Text style={styles.buttonTextCat}> Sofa! </Text>
+            <Text style={styles.buttonTextCat}>Sofa</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buttonCategory} onPress={onPressKitchen}>
-            <Text style={styles.buttonTextCat}> Kitchen! </Text>
+            <Text style={styles.buttonTextCat}>Kitchen</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buttonCategory} onPress={onPressShoes}>
-            <Text style={styles.buttonTextCat}> Shoes! </Text>
+            <Text style={styles.buttonTextCat}>Shoes</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonCategory} onPress={onPressLoginAdmin}>
-            <Text style={styles.buttonTextCat}> Buuton7! </Text>
+          <TouchableOpacity style={styles.buttonCategory} onPress={{}}>
+            <Text style={styles.buttonTextCat}> Buuton 7 </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonCategory} onPress={onPressLoginAdmin}>
-            <Text style={styles.buttonTextCat}> Buuton8! </Text>
+          <TouchableOpacity style={styles.buttonCategory} onPress={{}}>
+            <Text style={styles.buttonTextCat}> Buuton 8 </Text>
           </TouchableOpacity>
         </ScrollView>
       </View>
 
 
       <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-        <Text style={styles.please}>  Welcome </Text>
-          <Text style={styles.signInNotice}> {firstname}  </Text>
+        <Text style={styles.please}>Please</Text>
+        <TouchableOpacity style={styles.signInButton} onPress={onPressLogin}>
+          <Text style={styles.signInNotice}> Sign In... </Text>
+        </TouchableOpacity>
       </View>
       <FlatList
         data={productData}
         renderItem={renderItem}
         keyExtractor={(item) => item.uid}
-
       />
     </View>
   )
 }
-export default AllProduct
+export default UsersHomeScreen
 

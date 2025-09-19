@@ -3,11 +3,18 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import HomeScreen from './Screens/HomeScreen';
 import Product from './Screens/Product';
-import UniShop from './Screens/UniShop';
+import UserProductView from './Screens/UserProductView';
+
+import UsersHomeScreen from './Screens/UsersHomeScreen';
 import PersonalDetails from './Screens/PersonalDetails';
 import UpdateUser from './Screens/UpdateUser';
 import AdminDashboard from './Screens/AdminDashboard';
 import AdminOrderManagement from './Screens/AdminOrderManagement';
+import UniShop from './Screens/UniShop';
+import UserOrders from './Screens/UserOrders';
+import ReportGeneration from './Screens/ReportGeneration';
+import OrderReport from './Screens/OrderReport';
+import ViewSingleOrder from './Screens/ViewSingleOrder';
 
 import UpdateItem from './Screens/UpdateItem';
 
@@ -34,20 +41,76 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { StripeProvider } from '@stripe/stripe-react-native';
+import { useFonts } from 'expo-font';
+
+
 
 
 
 const Stack = createNativeStackNavigator();
 function App() {
+    const [fontsLoaded] = useFonts({
+      'PlayfairDisplaySC-Black': require('./assets/fonts/PlayfairDisplaySC-Black.ttf'),
+    'PlayfairDisplaySC-BlackItalic': require('./assets/fonts/PlayfairDisplaySC-BlackItalic.ttf'),
+    'PlayfairDisplaySC-Bold': require('./assets/fonts/PlayfairDisplaySC-Bold.ttf'),
+     'PlayfairDisplaySC-BoldItalic': require('./assets/fonts/PlayfairDisplaySC-BoldItalic.ttf'),
+    'PlayfairDisplaySC-Italic': require('./assets/fonts/PlayfairDisplaySC-Italic.ttf'),
+    'PlayfairDisplaySC-Regular': require('./assets/fonts/PlayfairDisplaySC-Regular.ttf'),
+    'Unna-Bold': require('./assets/fonts/Unna-Bold.ttf'),
+    'Unna-BoldItalic': require('./assets/fonts/Unna-BoldItalic.ttf'),
+    'Unna-Regular': require('./assets/fonts/Unna-Regular.ttf'),
+    'Unna-Italic': require('./assets/fonts/Unna-Italic.ttf')
+
+
+    
+     
+      });
   return (
     <Provider store={store}>
       <StripeProvider publishableKey='pk_test_51P2gWzGvncvE1LcJZlPIE37FctVa4IDTHdXXE6qC4xLKFSj0iG6G522ypHELezG4r35i4qR2eoxbRkfz9cC4EBHt002TA9rErq'>
     <NavigationContainer>
       <Stack.Navigator>
+      <Stack.Screen name="UsersHomeScreen" component={UsersHomeScreen} 
+          options={{ 
+            title: 'UsersHomeScreen',
+            tabBarLabel:'UsersHomeScreen',
+            tabBarIcon: () => (
+              <MaterialCommunityIcons name='home-account' size={20} color={'red-50'} />
+            )
+          }}
+        />
         <Stack.Screen name="HomeScreen" 
         component={HomeScreen} 
         options={{
           tabBarLabel: 'HomeScreen',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+        />
+          <Stack.Screen name="OrderReport" 
+        component={OrderReport} 
+        options={{
+          tabBarLabel: 'OrderReport',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+        />
+         <Stack.Screen name="ViewSingleOrder" 
+        component={ViewSingleOrder} 
+        options={{
+          tabBarLabel: 'ViewSingleOrder',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+        />
+
+              <Stack.Screen name="UserProductView" 
+        component={UserProductView} 
+        options={{
+          tabBarLabel: 'UserProductView',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
@@ -252,7 +315,7 @@ function App() {
             )
           }}
         />
-        <Stack.Screen name="UniShop" component={UniShop} 
+          <Stack.Screen name="UniShop" component={UniShop} 
           options={{ 
             title: 'UniShop',
             tabBarLabel:'UniShop',
@@ -261,11 +324,31 @@ function App() {
             )
           }}
         />
+          <Stack.Screen name="UserOrders" component={UserOrders} 
+          options={{ 
+            title: 'UserOrders',
+            tabBarLabel:'UserOrders',
+            tabBarIcon: () => (
+              <MaterialCommunityIcons name='home-account' size={20} color={'red-50'} />
+            )
+          }}
+        />
+              <Stack.Screen name="ReportGeneration" 
+        component={ReportGeneration} 
+        options={{
+          tabBarLabel: 'ReportGeneration',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+        />
+       
  </Stack.Navigator>
     </NavigationContainer>
     </StripeProvider>
     </Provider>
   )
-
 }
+
+
 export default App

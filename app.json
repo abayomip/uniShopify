@@ -25,6 +25,23 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": ["./assets/fonts/PlayfairDisplaySC-Black.ttf",
+          "./assets/fonts/PlayfairDisplaySC-BlackItalic.ttf",
+          "./assets/fonts/PlayfairDisplaySC-Bold.ttf",
+       "./assets/fonts/PlayfairDisplaySC-BoldItalic.ttf",
+      "./assets/fonts/PlayfairDisplaySC-Italic.ttf",
+      "./assets/fonts/PlayfairDisplaySC-Regular.ttf",
+      "./assets/fonts/Unna-Bold.ttf",
+      "./assets/fonts/Unna-BoldItalic.ttf",
+      "./assets/fonts/Unna-Regular.ttf"
+      ]
+        }
+      ]
+    ]
   }
 }
